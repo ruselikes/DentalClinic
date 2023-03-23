@@ -1,6 +1,7 @@
 import React, {Component, useState} from 'react';
 import Header from "../Components/Header";
 import CardDok from "../Components/CardDok";
+import Editableinput from "../Components/editableinput";
 
 
 const Doctors = () => {
@@ -16,6 +17,7 @@ const Doctors = () => {
                     <CardDok dok={dcard} key={dcard.id}/>
                 )}
             </div>
+            <Editableinput/>
         </div>
     );
 };

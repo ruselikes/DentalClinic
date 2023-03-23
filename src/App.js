@@ -10,6 +10,8 @@ import {useState} from "react";
 import Doctors from "./Pages/Doctors";
 import MyNavBar from "./Components/extra";
 import Extra from "./Components/extra";
+import Footer from "./Components/Footer";
+
 const docs =[
     {}
 ]
@@ -21,6 +23,7 @@ function App() {
           {/*<MyNavBar/>*/}
           <Header />{/*style={{marginTop:"60px"}*/}
           {/*<MyNavBar style={{display:"flex"}}/>*/}
+          <Footer/>
 
 
     {/*<HomePage/>*/}

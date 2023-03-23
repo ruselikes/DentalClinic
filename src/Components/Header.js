@@ -10,9 +10,8 @@ class Header extends Component {
     render() {
         return (
             <>
-                <Navbar /*style={{position:"sticky"}}*/ fixed={'top'}
+                <Navbar /*style={{position:"sticky"}}*/ /*fixed={'top'}
                         /*className={'position-sticky ps-0'} fixed="top"*/ collapseOnSelect bg = "light" variant="light" expand="md">
-
                     <Container>
                         <Navbar.Brand  href="/">
                             <img

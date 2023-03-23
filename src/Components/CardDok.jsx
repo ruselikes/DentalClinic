@@ -18,7 +18,6 @@ const CardDok = (props) => {
             <ListGroup className="list-group-flush">
                 <ListGroup.Item><b>Должность:</b> {props.dok.position}</ListGroup.Item>
                 <ListGroup.Item><b>Трудовой стаж:</b> {props.dok.position}</ListGroup.Item>
-
             </ListGroup>
 
         </Card>

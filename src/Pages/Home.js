@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import StartWindow from "../Components/StartWindow";
+import {Container} from "react-bootstrap";
 
 
 const Home = () => {
     return (
         <div>
-            <div className={'mt-5'}>
-                <StartWindow/>
-            </div>
+
+                <Container className='mt-5' style={{display:"flex",justifyContent:"center"}}>
+                    <StartWindow/>
+                </Container>
         </div>
     );
 };
