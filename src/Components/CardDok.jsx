@@ -2,11 +2,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import photo1 from "./ilonasergeevna.jpg"
-import "../Styles/carddok.css"
+import "./CardDok.css"
 
 const CardDok = (props) => {
     return (
-        <Card style={{ width: '18rem'}}>
+        <Card className={"CardDok"}>
             <Card.Img variant="top" src={photo1} />
             <Card.Body>
                 <Card.Title style={{textAlign:"center"}}>{props.dok.surname} {props.dok.name} {props.dok.middlename} </Card.Title>
