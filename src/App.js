@@ -12,21 +12,23 @@ import MyNavBar from "./Components/extra";
 import Extra from "./Components/extra";
 import Footer from "./Components/Footer";
 import useRoutes from "./Routes/routes";
+import {Container} from "react-bootstrap";
 function App() {
-    const route = useRoutes(false)
+    const route = useRoutes(true)
   return (
 
 
         <>
         <Header/>
-        <div className="container">
-            {route}
+
+            <Container style={{width:"80%"}}>{route}</Container>
+
           {/*<MyNavBar/>*/}
           {/*style={{marginTop:"60px"}*!/*/}
           {/*<MyNavBar style={{display:"flex"}}/>*/}
           {/*----------------------------<Footer/>*/}
 
-        </div>
+
         </>
     )
      {/*</>    ;*/}

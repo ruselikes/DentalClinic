@@ -1,10 +1,12 @@
 import React from 'react';
+import RegistrationForm from "../Components/RegistrationForm";
+import {Container} from "react-bootstrap";
 
 const AuthPage = () => {
     return (
-        <div>
-            <h1>Auth Pages</h1>
-        </div>
+
+        <RegistrationForm />
+
     );
 };
 
