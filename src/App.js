@@ -1,4 +1,4 @@
-
+import {BrowserRouter as Router,  Route, Link, Routes} from "react-router-dom"
 import './App.css';
 import { SecondElement } from './Components/SecondElement';
 import CardDok  from './Components/CardDok';
@@ -11,27 +11,33 @@ import Doctors from "./Pages/Doctors";
 import MyNavBar from "./Components/extra";
 import Extra from "./Components/extra";
 import Footer from "./Components/Footer";
-
-const docs =[
-    {}
-]
+import useRoutes from "./Routes/routes";
 function App() {
-
+    const route = useRoutes(false)
   return (
-    // <div class= "container-fluid align-items-center">
-      <div >
+
+
+        <>
+        <Header/>
+        <div className="container">
+            {route}
           {/*<MyNavBar/>*/}
-          <Header />{/*style={{marginTop:"60px"}*/}
+          {/*style={{marginTop:"60px"}*!/*/}
           {/*<MyNavBar style={{display:"flex"}}/>*/}
-          <Footer/>
+          {/*----------------------------<Footer/>*/}
+
+        </div>
+        </>
+    )
+     {/*</>    ;*/}
 
 
     {/*<HomePage/>*/}
     {/*<h1>Hello,  sssWorldsddsadd!</h1>*/}
     {/*<Button variant="outline-success">GDgd</Button>*/}
     {/*<SecondElement />*/}
-    </div>
-    );
+
+
 }
 
 export default App;
