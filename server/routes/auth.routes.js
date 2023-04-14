@@ -1,12 +1,13 @@
 const {Router} = require("express")
 const router = Router()
+const LogPass = require("../models/testLP")
 const Pacient = require("../models/pacient")
 const bcrypt = require("bcryptjs")
 const {check,validationResult} = require('express-validator')
 
 
 module.exports = router
-//  /api/auth
+ // /api/auth
 router.post("" +
     "/register",
     [
@@ -33,12 +34,33 @@ router.post("" +
         const hashedPassword =await bcrypt.hash(password,12)
         const new_pacient = new Pacient ({email:email,password: hashedPassword})
         await new_pacient.save()
-        res.status(201).json({message:"Пациент добавлен систему"})
+        res.status(201).json({message:"Пациент добавлен систему",user:new_pacient})
     } catch{
         res.status(500).json({message:"На моем сервер что то не так. tg: trimberg"})
     }
 })
+//------------------------------------------------------------------------------------------------------------------
+router.post("" +
+    "/register",async (req,res) =>
+{
+    try{
 
+        const {login,password} = req.body
+
+        const candidate = await LogPass.findOne({email: login})
+
+        if (candidate) {
+            return res.status(400).json({message:"Пользователь с таким E-mail уже зарегистрирован в системе."})
+        }
+
+        const new_testlp = new LogPass ({login:login,password: password})
+        await new_testlp.save()
+        res.status(201).json({message:"Пациент добавлен систему",user:new_testlp})
+    } catch{
+        res.status(500).json({message:"На моем сервер что то не так. tg: trimberg"})
+    }
+})
+//---------------------------------------------------------------------------------------------------------------------
 router.post("/login",
     [
         check("email","Введите корректный E-mail").normalizeEmail().isEmail,
