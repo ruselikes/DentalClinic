@@ -9,11 +9,22 @@ const RegistrationForm = () => {
     const [lastName, setLastName] = useState("");
     const [middleName, setMiddleName] = useState("");
     const [password, setPassword] = useState("");
+    /*------------------------------------------------*/
+    const [form,setForm] = useState({
+        email:'',password:'',firstName:'',lastName:'',middleName:''
+    })
+    const changeHandler = event =>{
+        setForm(...form,event.target.name,event.target.value)
+    }
+    /*------------------------------------------------------------------*/
     // const history = useHistory();
 
     // const handleRegistrationClick = () => {
     //     history.push('/registration');
     // };
+    const validateEmail = (email) =>{
+        return email.length >0; // не менее 5 символо
+    }
     const validateName = (name) => {
         const regex = /^[a-zA-Zа-яА-Я]{2,}$/; // только буквы, не менее 2 символов
         return regex.test(name);
@@ -34,6 +45,10 @@ const RegistrationForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!validateEmail(email)){
+            alert("Введите корректную почту");
+            return;
+        }
         if (!validateName(firstName)) {
             alert("Please enter a valid first name");
             return;
@@ -51,48 +66,54 @@ const RegistrationForm = () => {
             return;
         }
         console.log("Form submitted");
-        console.log(email, firstName, lastName, middleName, password);
+        const jsonObj = {email:email,firstName:firstName,lastName:lastName,middleName:middleName,password:password}
+        console.log(JSON.stringify(jsonObj))
+        alert("Успешная регистрация!")
 
     };
-
+    /*------------------------------------------------------------------*/
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>E-mail адрес:</Form.Label>
                 <Form.Control
                     type="email"
-                    placeholder="Enter email"
+                    placeholder="Введите E-mail"
                     value={email}
+                    name="email"
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </Form.Group>
 
             <Form.Group controlId="firstName">
-                <Form.Label>First Name</Form.Label>
+                <Form.Label>Имя:</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="Enter first name"
+                    placeholder="Ваше имя"
                     value={firstName}
+                    name="firstName"
                     onChange={(e) => setFirstName(e.target.value)}
                 />
             </Form.Group>
 
             <Form.Group controlId="lastName">
-                <Form.Label>Last Name</Form.Label>
+                <Form.Label>Фамилия:</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="Enter last name"
+                    placeholder="Ваша фамилия"
                     value={lastName}
+                    name="lastName"
                     onChange={(e) => setLastName(e.target.value)}
                 />
             </Form.Group>
 
             <Form.Group controlId="middleName">
-                <Form.Label>Middle Name (optional)</Form.Label>
+                <Form.Label>Отчество (при наличии)</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="Enter middle name"
+                    placeholder="Ваше отчество"
                     value={middleName}
+                    name="middleName"
                     onChange={(e) => setMiddleName(e.target.value)}
                 />
             </Form.Group>

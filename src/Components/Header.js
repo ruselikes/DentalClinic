@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import {Container, Navbar,Nav, Button} from "react-bootstrap";
 import logo from "./free-icon-tooth-993344.png"
-import {BrowserRouter as Router,  Route, Link, Routes} from "react-router-dom"
+import {BrowserRouter as Router,  Route, Link, Routes,useNavigate} from "react-router-dom"
 import Home from "../Pages/Home"
 import Doctors from "../Pages/Doctors"
 import Prices from "../Pages/Prices"
 import './Header.css';
-class Header extends Component {
-    render() {
+import AuthPage from "../Pages/AuthPage";
+const Header = () => {
+
+        // const navigate = useNavigate();
+        // const handleRegistrationClick = () => {
+        //     navigate('/reg');
+        // };
         return (
             <>
                 <Navbar /*style={{position:"sticky"}}*/ /*fixed={'top'}
@@ -29,14 +34,14 @@ class Header extends Component {
                                     <Nav.Link href="/">Главная</Nav.Link>
                                     <Nav.Link href="/doctors">Врачи</Nav.Link>
                                     <Nav.Link href="/prices">Услуги</Nav.Link>
+                                    <Nav.Link href="/reg">Регистрация</Nav.Link>
                                 </Nav>
                                 <Nav>
                                     <Button className="but-margin" variant={'primary'}>Войти</Button>
-                                    <Button variant={'primary'}>Зарегистрироваться</Button>
+                                    {/*<button  onClick={handleRegistrationClick}>Зарегистрироваться</button>*/}
                                 </Nav>
                             </Navbar.Collapse>
                     </Container>
-                    <b></b>
                     {/*<Container>*/}
                     {/*    <Navbar.Brand href="#">Название клиники</Navbar.Brand>*/}
                     {/*    <Navbar.Toggle aria-controls="basic-navbar-nav" />*/}
@@ -66,17 +71,18 @@ class Header extends Component {
                     {/*    </Navbar.Collapse>*/}
                     {/*</Container>*/}
                 </Navbar>
-                <Router>
-                    <Routes>
-                        <Route exact path="/" element={< Home />} />
-                        <Route exact path="/doctors" element={<Doctors />} />
-                        <Route exact path="/prices" element={<Prices />} />
-                    </Routes>
-                </Router>
+                {/*<Router>*/}
+                {/*    <Routes>*/}
+                {/*        <Route exact path="/" element={< Home />} />*/}
+                {/*        <Route exact path="/doctors" element={<Doctors />} />*/}
+                {/*        <Route exact path="/prices" element={<Prices />} />*/}
+                {/*        <Route exact path="/reg" element={<AuthPage />} />*/}
+                {/*    </Routes>*/}
+                {/*</Router>*/}
                 
             </>
         );
     }
-}
+
 
 export default Header;

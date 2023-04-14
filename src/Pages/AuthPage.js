@@ -1,12 +1,13 @@
 import React from 'react';
 import RegistrationForm from "../Components/RegistrationForm";
-import {Container} from "react-bootstrap";
+import RegForm from "../Components/Autorization/RegForm";
+import AdminUslugi from "../Components/AdminUslugi";
 
 const AuthPage = () => {
     return (
-
-        <RegistrationForm />
-
+            // <RegistrationForm/>
+<AdminUslugi/>
+        // <RegForm/>
     );
 };
 

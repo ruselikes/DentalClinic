@@ -5,6 +5,7 @@ import Doctors from "../Pages/Doctors";
 import Prices from "../Pages/Prices";
 import AuthPage from "../Pages/AuthPage";
 
+
 const useRoutes = (isAuthPacient) => {
     if (isAuthPacient) {
         return (
