@@ -50,7 +50,7 @@
 //     )
 // }
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 function PostList() {
     const [posts, setPosts] = useState([]);
     const [title, setTitle] = useState('');
@@ -58,10 +58,13 @@ function PostList() {
 
     // загружаем существующие посты при монтировании компонента
     useEffect(() => {
-        fetch('/api/posts')
+        // axios.post('http://localhost:5000/api/posts')
+       fetch('http://localhost:5000/api/posts')
+
             .then(res => res.json())
             .then(posts => setPosts(posts))
             .catch(error => console.error(error));
+
     }, []);
 
     // обработчик изменения поля заголовка
@@ -73,7 +76,7 @@ function PostList() {
     // обработчик отправки формы
     const handleSubmit = event => {
         event.preventDefault();
-        fetch('/api/posts', {
+        fetch('http://localhost:5000/api/posts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title, text })

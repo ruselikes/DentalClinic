@@ -6,7 +6,8 @@ const app = express()
 const PORT = config.get("port")
 const authRouter = require('./authRouter')
 const Post = require('./models/Post')
-
+const cors = require('cors');
+app.use(cors({origin: 'http://localhost:3000'}));
 
 app.use(express.json())
 
@@ -19,12 +20,23 @@ app.get('/api/posts', (req, res) => {
 
 // создаем новый пост
 app.post('/api/posts', (req, res) => {
-    const post = new Post(req.body);
+    const post = new Post({title:req.body.title,text:req.body.text});
     post.save()
         .then(post => res.json(post))
         .catch(error => res.status(500).send(error));
 });
+app.delete('/api/posts', (req, res) => {
+    const post =  Post.deleteOne({title:req.body.title,text:req.body.text});
+    post.de()
+        .then(post => res.json(post))
+        .catch(error => res.status(500).send(error));
+});
+app.get("/api/posts/:title", function (req, res) {
+    Post.findOne({title: req.params["title"]})
+        .then(post => res.json(post))
+        .catch(error => res.status(500).send(error));
 
+});
 async function startApp(){
     try {
         await mongoose.connect(config.get("mongooUri")).then((res)=> console.log("БД подключена")).catch((er) => {console.log("DB Error Occured:\n\tError description"+er);throw new Error()})

@@ -1,4 +1,5 @@
 {
   "port": 5000,
-  "mongooUri": "mongodb+srv://admin:admin@cluster0.y8y9wmm.mongodb.net/?retryWrites=true&w=majority"
+  "mongooUri": "mongodb+srv://admin:admin@cluster0.y8y9wmm.mongodb.net/?retryWrites=true&w=majority",
+  "secret": "mnemonic_phrase"
 }

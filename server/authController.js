@@ -2,7 +2,17 @@ const User = require('./models/pacient')
 const Role = require('./models/role')
 const Pacient = require("./models/pacient");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const {validationResult} = require("express-validator");
+const config = require("config");
+const secret = config.get("secret")
+const generateAccessToken = (id, roles) => {
+    const payload = {
+        id,
+        roles
+    }
+    return jwt.sign(payload, secret, {expiresIn: "24h"} )
+}
 class authController{
     async registration(req,res){
 
@@ -14,7 +24,7 @@ class authController{
             if (candidate) {
                 return res.status(400).json({message:"Пользователь с таким E-mail уже зарегистрирован в системе."})
             }
-            const hashedPassword =await bcrypt.hash(password,12)
+            const hashedPassword =await bcrypt.hash(password,2)
             const new_pacient = new Pacient ({email:email,password: hashedPassword,surname,name,roles})
             await new_pacient.save()
             res.status(201).json({message:"Пациент добавлен систему",user:new_pacient})
@@ -39,12 +49,13 @@ class authController{
                 return res.status(400).json({message:"Пользователь не найден."})
             }
             const isMatch = await bcrypt.compare(password,pacient.password)
-            // const isMatch = password == "$2a$12$Mv3Frphsq0X87p0Vv4aaZeNbI7HBSR/iKcTxCPiz9wya6PdLoSuBm"
+            // const isMatch = password == pacient.password
 
             if (!isMatch){
                 return  res.status(400).json({message:"Неверный пароль."})
             }
-            return res.json({message: "успешно вошел красава"})
+            const token = generateAccessToken(pacient._id, pacient.roles)
+            return res.json({message:"Вошли",token:token})
 
 
         }catch {
