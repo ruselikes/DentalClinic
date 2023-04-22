@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import photo1 from "./ilonasergeevna.jpg"
+import photo1 from "../ilonasergeevna.jpg"
 import "./CardDok.css"
 
 const CardDok = (props) => {
@@ -17,7 +17,7 @@ const CardDok = (props) => {
             </Card.Body>
             <ListGroup className="list-group-flush">
                 <ListGroup.Item><b>Должность:</b> {props.dok.position}</ListGroup.Item>
-                <ListGroup.Item><b>Трудовой стаж:</b> {props.dok.position}</ListGroup.Item>
+                <ListGroup.Item><b>Трудовой стаж:</b> {props.dok.exp}</ListGroup.Item>
             </ListGroup>
 
         </Card>

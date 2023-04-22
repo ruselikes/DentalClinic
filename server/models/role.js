@@ -1,6 +1,6 @@
 const {Schema,model,Types} = require("mongoose")
 const Role = new Schema({
-    value:{type:String,unique:true,default:"Pacient"}
+    value:{type:String,unique:true,default:"pacient"}
 
 
 

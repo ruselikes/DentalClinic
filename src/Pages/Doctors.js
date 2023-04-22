@@ -1,6 +1,6 @@
 import React, {Component, useState} from 'react';
-import Header from "../Components/Header";
-import CardDok from "../Components/CardDok";
+import Header from "../Components/Header/Header";
+import CardDok from "../Components/DokCard/CardDok";
 import Editableinput from "../Components/editableinput";
 import {Button, Container} from "react-bootstrap";
 

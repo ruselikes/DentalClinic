@@ -1,0 +1,23 @@
+#service-form-container {
+    position: fixed;
+    right: 0px;
+    top: 400px;
+    transition: right 0.5s ease-in-out;
+    z-index: 1000;
+    width: 400px;
+}
+
+/*#service-form-container.open {*/
+/*    right: 0;*/
+/*}*/
+
+#service-form {
+    padding: 20px;
+}
+
+/*#open-form-btn {*/
+/*    position: fixed;*/
+/*    right: 20px;*/
+/*    bottom: 20px;*/
+/*    z-index: 999;*/
+/*}*/

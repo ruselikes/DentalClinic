@@ -4,11 +4,14 @@ import Home from "../Pages/Home";
 import Doctors from "../Pages/Doctors";
 import Prices from "../Pages/Prices";
 import AuthPage from "../Pages/AuthPage";
+import Header from "../Components/Header/Header";
 
 
 const useRoutes = (isAuthPacient) => {
     if (isAuthPacient) {
         return (
+            <>
+            <Header />
             <Router>
                 <Routes>
                     <Route exact path="/" element={< Home/>}/>
@@ -21,9 +24,12 @@ const useRoutes = (isAuthPacient) => {
                     />
                 </Routes>
             </Router>
+            </>
         )
     }
     return(
+        <>
+            <Header />
         <Router>
             <Routes>
             <Route exact path="/" element={< Home/>}/>
@@ -34,6 +40,7 @@ const useRoutes = (isAuthPacient) => {
             />
             </Routes>
         </Router>
+            </>
     )
 };
 

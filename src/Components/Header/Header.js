@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {Container, Navbar,Nav, Button} from "react-bootstrap";
-import logo from "./free-icon-tooth-993344.png"
+import logo from "../free-icon-tooth-993344.png"
 import {BrowserRouter as Router,  Route, Link, Routes,useNavigate} from "react-router-dom"
-import Home from "../Pages/Home"
-import Doctors from "../Pages/Doctors"
-import Prices from "../Pages/Prices"
+import Home from "../../Pages/Home"
+import Doctors from "../../Pages/Doctors"
+import Prices from "../../Pages/Prices"
 import './Header.css';
-import AuthPage from "../Pages/AuthPage";
-const Header = () => {
+import AuthPage from "../../Pages/AuthPage";
+const Header = (isAutorization,role) => {
 
         // const navigate = useNavigate();
         // const handleRegistrationClick = () => {

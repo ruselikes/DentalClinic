@@ -10,22 +10,27 @@ module.exports = function (roles) {
         try {
             const token = req.headers.authorization.split(' ')[1]
             if (!token) {
-                return res.status(403).json({message: "Пользователь не авторизован"})
+                return res.status(403).json({message: "Пользователь не авторизован. Авторизируйтесь!"})
             }
-            const {roles: userRoles} = jwt.verify(token, secret)
+            let {roles: userRoles} = jwt.verify(token, secret)
             let hasRole = false
+            // console.log(userRoles)
             userRoles.forEach(role => {
                 if (roles.includes(role)) {
                     hasRole = true
+                    // req.userinfo()
                 }
             })
             if (!hasRole) {
-                return res.status(403).json({message: "У вас нет доступа"})
+                return res.status(403).json({message: "У вас нет доступа к странице. Нужно обладать правами администратора"})
             }
+            const decodedData = jwt.verify(token, secret)
+            // console.log(decodedData)
+            // req.user = decodedData
             next();
         } catch (e) {
             console.log(e)
-            return res.status(403).json({message: "Пользователь не авторизован"})
+            return res.status(403).json({message: "Произошла ошибка"})
         }
     }
 };

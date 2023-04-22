@@ -1,6 +1,6 @@
-const User = require('./models/pacient')
-const Role = require('./models/role')
-const Pacient = require("./models/pacient");
+const User = require('../models/pacient')
+const Role = require('../models/role')
+const Pacient = require("../models/pacient");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const {validationResult} = require("express-validator");
@@ -71,5 +71,19 @@ class authController{
             return res.status(400).json({message: "Что то не так",error:e.message})
         }
     }
+    async getMe(req,res){
+        try{
+            const user = await Pacient.findById(req.user.id)
+            console.log(user)
+            return res.json({
+                user
+            })
+        }
+        catch (e){
+            return res.status(400).json({message: "Что то не так",error:e.message})
+
+        }
+    }
+
 }
 module.exports = new authController()
