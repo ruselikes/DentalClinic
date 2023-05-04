@@ -22,23 +22,29 @@ const LoginForm = ({ history }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         })
-            .then(res => res.json()).then(userData => {auth.login(userData)})
-        // {
-            //     if (response.status === 200) {
+            .then(res =>
+                res.json()
+            ).then(userData => {auth.login(userData.token)})
+
+            // .then(response => response.json())
+            // .then( (datares)=> {
+            //     if (datares.status === 200) {
             //         // Пользователь авторизован - сохраняем его ID в локальное хранилище
             //         // response.json().then(data => localStorage.setItem('userId', data.userId));
             //         // Перенаправление на страницу личного кабинета
             //         // redirect('/doctors');
             //         alert('Вошел!')
-            //         const userData = response.json().token;;
-            //         auth.login(userData)
+            //         const userData = datares
+            //         auth.login(userData.token)
             //         // console.log(response.body)
             //     } else {
             //         // Ошибка авторизации - выводим сообщение об ошибке
             //         alert('Invalid login or password');
             //         // response.json({message:"блять сука"})
             //     }
-            // })
+            //
+            // }
+
             .catch(error => console.log(error));
     }catch (e){
         console.log(e)

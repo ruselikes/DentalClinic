@@ -43,6 +43,7 @@ class authController{
         try{
             const errors = validationResult(req)
             if (!errors.isEmpty()){
+                console.log('Ошибочные данные!')
                 return res.status(400).json({
                     errors: errors.array(),
                     message: "Некоректные данные при входе в систему"
@@ -52,12 +53,14 @@ class authController{
             const pacient = await Pacient.findOne({email:email})
 
             if (!pacient){
+                console.log('Пользователя нет')
                 return res.status(400).json({message:"Пользователь не найден."})
             }
             const isMatch = await bcrypt.compare(password,pacient.password)
             // const isMatch = password == pacient.password
 
             if (!isMatch){
+                console.log('Неверный пароль')
                 return  res.status(400).json({message:"Неверный пароль."})
             }
             const token = generateAccessToken(pacient._id, pacient.roles)

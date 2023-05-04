@@ -122,9 +122,9 @@ const Header = (isAutorization) => {
                     <Nav>
                         <Button href="/me" className="but-margin" variant={'primary'}>ЛК</Button>
                         {/*<button  onClick={handleRegistrationClick}>Зарегистрироваться</button>*/}
-                        <Link to="/doctors">
+
                         <Button href="/reg" className="but-margin" onClick={logoutHandler} variant={'primary'}>Выйти</Button>
-                        </Link>
+
                     </Nav>
 
                 </Navbar.Collapse>
