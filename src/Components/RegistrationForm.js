@@ -5,17 +5,18 @@ import { useHistory } from 'react-router-dom';
 const RegistrationForm = () => {
 
     const [email, setEmail] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [middleName, setMiddleName] = useState("");
+    const [name, setFirstName] = useState("");
+    const [surname, setLastName] = useState("");
+    const [middlename, setMiddleName] = useState("");
     const [password, setPassword] = useState("");
+    const [roles,setRole] = useState(["pacient"])
     /*------------------------------------------------*/
     const [form,setForm] = useState({
-        email:'',password:'',firstName:'',lastName:'',middleName:''
+        email:'',password:'',firstName:'',lastName:'',middleName:'',roles:""
     })
-    const changeHandler = event =>{
-        setForm(...form,event.target.name,event.target.value)
-    }
+    // const changeHandler = event =>{
+    //     setForm(...form,event.target.name,event.target.value)
+    // }
     /*------------------------------------------------------------------*/
     // const history = useHistory();
 
@@ -29,14 +30,14 @@ const RegistrationForm = () => {
         const regex = /^[a-zA-Zа-яА-Я]{2,}$/; // только буквы, не менее 2 символов
         return regex.test(name);
     };
-    const validateLastName = (lastName) => {
+    const validateLastName = (lastname) => {
         const regex = /^[a-zA-Zа-яА-Я]{2,}$/; // только буквы, не менее 2 символов
-        return regex.test(lastName);
+        return regex.test(lastname);
     };
 
-    const validateMiddleName = (middleName) => {
+    const validateMiddleName = (middlename) => {
         const regex = /^[a-zA-Zа-яА-Я]{2,}$/; // только буквы, не менее 2 символов
-        return regex.test(middleName);
+        return regex.test(middlename);
     };
 
     const validatePassword = (password) => {
@@ -49,15 +50,15 @@ const RegistrationForm = () => {
             alert("Введите корректную почту");
             return;
         }
-        if (!validateName(firstName)) {
+        if (!validateName(name)) {
             alert("Please enter a valid first name");
             return;
         }
-        if (!validateLastName(lastName)) {
+        if (!validateLastName(surname)) {
             alert("Please enter a valid last name");
             return;
         }
-        if (!validateMiddleName(middleName)) {
+        if (!validateMiddleName(middlename)) {
             alert("Please enter a valid middle name");
             return;
         }
@@ -66,9 +67,17 @@ const RegistrationForm = () => {
             return;
         }
         console.log("Form submitted");
-        const jsonObj = {email:email,firstName:firstName,lastName:lastName,middleName:middleName,password:password}
+        const jsonObj = {email:email,password:password,name:name,surname:surname,middlename:middlename,roles:roles}
         console.log(JSON.stringify(jsonObj))
-        alert("Успешная регистрация!")
+
+        fetch('http://localhost:5000/auth/registration', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, name, surname, middlename, roles})
+
+        }).then(res => res.json())
+            .catch(error => {console.error(error);console.log("Ошибка внутри кнопки формы!)")});
+
 
     };
     /*------------------------------------------------------------------*/
@@ -90,7 +99,7 @@ const RegistrationForm = () => {
                 <Form.Control
                     type="text"
                     placeholder="Ваше имя"
-                    value={firstName}
+                    value={name}
                     name="firstName"
                     onChange={(e) => setFirstName(e.target.value)}
                 />
@@ -101,7 +110,7 @@ const RegistrationForm = () => {
                 <Form.Control
                     type="text"
                     placeholder="Ваша фамилия"
-                    value={lastName}
+                    value={surname}
                     name="lastName"
                     onChange={(e) => setLastName(e.target.value)}
                 />
@@ -112,7 +121,7 @@ const RegistrationForm = () => {
                 <Form.Control
                     type="text"
                     placeholder="Ваше отчество"
-                    value={middleName}
+                    value={middlename}
                     name="middleName"
                     onChange={(e) => setMiddleName(e.target.value)}
                 />

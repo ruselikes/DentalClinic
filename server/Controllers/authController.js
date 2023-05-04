@@ -17,7 +17,7 @@ class authController{
     async registration(req,res){
 
         try{
-            const {email,password,name,surname,roles} = req.body
+            const {email, password, name, surname, middlename, roles} = req.body
 
             const candidate = await Pacient.findOne({email: email})
 
@@ -25,12 +25,17 @@ class authController{
                 return res.status(400).json({message:"Пользователь с таким E-mail уже зарегистрирован в системе."})
             }
             const hashedPassword =await bcrypt.hash(password,2)
-            const new_pacient = new Pacient ({email:email,password: hashedPassword,surname,name,roles})
+            const new_pacient = new Pacient ({email:email,password: hashedPassword,surname:surname,name:name,middlename:middlename,roles:roles})
             await new_pacient.save()
-            res.status(201).json({message:"Пациент добавлен систему",user:new_pacient})
+            if (req.body.roles.includes("admin")){
+            res.status(201).json({message:"Админ добавлен систему",user:new_pacient})
+            }
+            else if (req.body.roles.includes("pacient")){
+                res.status(201).json({message:"Пациент добавлен систему",user:new_pacient})
+            }
         }
         catch(e){
-        res.status(500).json({message:"На моем сервер что то не так. tg: trimberg",error: e.message})
+        res.status(500).json({message:"На моем серверe (при регистрации) что то не так. tg: trimberg",error: e.message})
         }
     }
     async login(req,res){
@@ -55,11 +60,13 @@ class authController{
                 return  res.status(400).json({message:"Неверный пароль."})
             }
             const token = generateAccessToken(pacient._id, pacient.roles)
+            console.log("Вошли",{token:token})
+            // localStorage.setItem('token', token);
             return res.json({message:"Вошли",token:token})
 
 
-        }catch {
-
+        }catch (e){
+            return res.status(400).json({message: "Что то не так",error:e.message})
         }
     }
     async getUsers(req,res){

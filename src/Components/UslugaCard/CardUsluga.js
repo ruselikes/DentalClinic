@@ -5,7 +5,7 @@ import photo1 from "../ilonasergeevna.jpg"
 import "./CardUsluga.css";
 
 
-
+//  сама карточка услуги, принимает параметры и рисует карточку
 const CardUsluga = (props) => {
 
     return (

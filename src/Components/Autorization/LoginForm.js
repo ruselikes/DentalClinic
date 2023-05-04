@@ -1,28 +1,32 @@
 import { useState } from 'react';
+import {redirect, useNavigate} from "react-router-dom";
+
 
 const LoginForm = ({ history }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = e => {
         e.preventDefault();
 
         // Отправка запроса на серверную часть
-        fetch('/login', {
+        fetch('http://localhost:5000/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ email, password })
         })
             .then(response => {
                 if (response.status === 200) {
                     // Пользователь авторизован - сохраняем его ID в локальное хранилище
-                    response.json().then(data => localStorage.setItem('userId', data.userId));
+                    // response.json().then(data => localStorage.setItem('userId', data.userId));
                     // Перенаправление на страницу личного кабинета
-                    history.push('/doctors');
-                    console.log(response.body)
+                    // redirect('/doctors');
+                    alert('Вошел!')
+                    // console.log(response.body)
                 } else {
                     // Ошибка авторизации - выводим сообщение об ошибке
-                    alert('Invalid login or password');
+                    // alert('Invalid login or password');
+                    // response.json({message:"блять сука"})
                 }
             })
             .catch(error => console.log(error));
@@ -31,8 +35,8 @@ const LoginForm = ({ history }) => {
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Username:
-                <input type="text" name="username" value={username} onChange={e => setUsername(e.target.value)} />
+                Email:
+                <input type="text" name="username" value={email} onChange={e => setEmail(e.target.value)} />
             </label>
             <br />
             <label>
@@ -40,7 +44,7 @@ const LoginForm = ({ history }) => {
                 <input type="password" name="password" value={password} onChange={e => setPassword(e.target.value)} />
             </label>
             <br />
-            <button type="submit">Login</button>
+            <button type="submit">Добавить</button>
         </form>
     );
 };

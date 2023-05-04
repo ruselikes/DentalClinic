@@ -16,6 +16,8 @@ import {Container} from "react-bootstrap";
 import Home from "./Pages/Home";
 import Prices from "./Pages/Prices";
 import AuthPage from "./Pages/AuthPage";
+import LoginForm from "./Components/Autorization/LoginForm";
+import RegistrationForm from "./Components/RegistrationForm";
 function App() {
     const route = useRoutes(true)
     const isA = true;
@@ -24,13 +26,14 @@ function App() {
 
             <>
                 {/*<Container style={{width:"80%"}}>{route}</Container>*/}
-            <Header />
+            <Header isA={isA}/>
                 <Router >
                     <Routes>
                         <Route  exact path="/" element={< Home/>}/>
                         <Route exact path="/doctors" element={<Doctors/>}/>
                         <Route exact path="/prices" element={<Prices/>}/>
-                        <Route exact path="/reg" element={<AuthPage />} />
+                        <Route exact path="/reg" element={<RegistrationForm />} />
+                        <Route exact path="/login" element={<LoginForm />} />
                         <Route
                             path="*"
                             element={<Navigate to="/" replace />}

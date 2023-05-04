@@ -11,12 +11,18 @@ const authRouter = require('./authRouter')
 const Post = require('./models/Post')
 const Usluga = require('./models/Usluga')
 const cors = require('cors');
+const {check} = require("express-validator");
+const authController = require("./Controllers/authController");
 
 app.use(cors({origin: 'http://localhost:3000'}));
 
 app.use(express.json())
 
 app.use("/auth", authRouter)
+// app.post('/auth/registration',[
+//     check('username', "Имя пользователя не может быть пустым").notEmpty(),
+//     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
+// ], authController.registration)
 app.get('/api/posts', (req, res) => {
     Post.find()
         .then(posts => res.json(posts))

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import photo1 from "../ilonasergeevna.jpg"
 import "./CardDok.css"
-
+// Карточка доктора
 const CardDok = (props) => {
     return (
         <Card className={"CardDok"}>

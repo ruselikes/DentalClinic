@@ -28,8 +28,8 @@ const Doctors = () => {
             </div>
 
         </Container>
-        <Editableinput/>
-        <Button variant={'primary'}>Зарегистрироваться</Button>
+        {/*<Editableinput/>*/}
+        {/*<Button variant={'primary'}>Зарегистрироваться</Button>*/}
         </>
     );
 };
