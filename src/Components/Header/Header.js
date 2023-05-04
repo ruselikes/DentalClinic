@@ -1,22 +1,24 @@
-import React, {Component} from 'react';
+import {React, useContext, useState} from 'react';
 import {Container, Navbar,Nav, Button} from "react-bootstrap";
 import logo from "../free-icon-tooth-993344.png"
-import {BrowserRouter as Router,  Route, Link, Routes,useNavigate} from "react-router-dom"
+import {BrowserRouter,  Route, Link, Routes,useNavigate} from "react-router-dom"
 import Home from "../../Pages/Home"
 import Doctors from "../../Pages/Doctors"
 import Prices from "../../Pages/Prices"
 import './Header.css';
 import AuthPage from "../../Pages/AuthPage";
+import {AuthContext} from '../../AuthContext'
 const Header = (isAutorization) => {
 
-        // const navigate = useNavigate();
-        // const handleRegistrationClick = () => {
-        //     navigate('/reg');
-        // };
+    const auth = useContext(AuthContext)
+    const logoutHandler = event => {
+        event.preventDefault();
+        auth.logout();
+
+    }
     if (!isAutorization.isA) {
         return (
             <>
-
                 <Navbar /*style={{position:"sticky"}}*/ /*fixed={'top'}
                         /*className={'position-sticky ps-0'} fixed="top"*/ collapseOnSelect bg="light" variant="light"
                                                                            expand="md">
@@ -41,9 +43,11 @@ const Header = (isAutorization) => {
                             </Nav>
 
                             <Nav>
+
                                 <Button href="/login" className="but-margin" variant={'primary'}>Войти</Button>
+
                                 {/*<button  onClick={handleRegistrationClick}>Зарегистрироваться</button>*/}
-                                <Button href="/reg" className="but-margin" variant={'primary'}>Регистрация</Button>
+                                <Button href="/reg" className="but-margin"  variant={'primary'}>Регистрация</Button>
                             </Nav>
 
                         </Navbar.Collapse>
@@ -116,9 +120,11 @@ const Header = (isAutorization) => {
                     </Nav>
 
                     <Nav>
-                        <Button href="/login" className="but-margin" variant={'primary'}>ЛК</Button>
+                        <Button href="/me" className="but-margin" variant={'primary'}>ЛК</Button>
                         {/*<button  onClick={handleRegistrationClick}>Зарегистрироваться</button>*/}
-                        <Button href="/reg" className="but-margin" variant={'primary'}>Выйти</Button>
+                        <Link to="/doctors">
+                        <Button href="/reg" className="but-margin" onClick={logoutHandler} variant={'primary'}>Выйти</Button>
+                        </Link>
                     </Nav>
 
                 </Navbar.Collapse>

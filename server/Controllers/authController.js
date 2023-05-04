@@ -13,6 +13,7 @@ const generateAccessToken = (id, roles) => {
     }
     return jwt.sign(payload, secret, {expiresIn: "24h"} )
 }
+
 class authController{
     async registration(req,res){
 
@@ -60,9 +61,10 @@ class authController{
                 return  res.status(400).json({message:"Неверный пароль."})
             }
             const token = generateAccessToken(pacient._id, pacient.roles)
-            console.log("Вошли",{token:token})
-            // localStorage.setItem('token', token);
-            return res.json({message:"Вошли",token:token})
+            console.log({token})
+            // localStorage.setItem('userData', JSON.stringify(token));
+            return res.status(200).json({token:token})
+
 
 
         }catch (e){

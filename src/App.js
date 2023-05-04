@@ -16,43 +16,41 @@ import {Container} from "react-bootstrap";
 import Home from "./Pages/Home";
 import Prices from "./Pages/Prices";
 import AuthPage from "./Pages/AuthPage";
+import {useAuth} from './hooks/authhook'
+import {AuthContext} from './AuthContext'
 import LoginForm from "./Components/Autorization/LoginForm";
-import RegistrationForm from "./Components/RegistrationForm";
+import RegistrationForm from "./Components/Autorization/RegistrationForm";
 function App() {
     const route = useRoutes(true)
     const isA = true;
+    const {token, login, logout, userId, ready} = useAuth()
+    const isAuthenticated = !!token
       return (
+          <AuthContext.Provider value={{
+              token, login, logout, userId, isAuthenticated}}>
+
+                    {/*<Container style={{width:"80%"}}>{route}</Container>*/}
+                <Header isA={isAuthenticated}/>
+                    <Router >
+                        <Routes>
+                            <Route  exact path="/" element={< Home/>}/>
+                            <Route exact path="/doctors" element={<Doctors/>}/>
+                            <Route exact path="/prices" element={<Prices/>}/>
+                            <Route exact path="/reg" element={<RegistrationForm />} />
+                            <Route exact path="/login" element={<LoginForm />} />
+                            <Route exact path="/me" element={<LoginForm />} />
+                            <Route
+                                path="*"
+                                element={<Navigate to="/" replace />}
+                            />
+                        </Routes>
+                    </Router>
 
 
-            <>
-                {/*<Container style={{width:"80%"}}>{route}</Container>*/}
-            <Header isA={isA}/>
-                <Router >
-                    <Routes>
-                        <Route  exact path="/" element={< Home/>}/>
-                        <Route exact path="/doctors" element={<Doctors/>}/>
-                        <Route exact path="/prices" element={<Prices/>}/>
-                        <Route exact path="/reg" element={<RegistrationForm />} />
-                        <Route exact path="/login" element={<LoginForm />} />
-                        <Route
-                            path="*"
-                            element={<Navigate to="/" replace />}
-                        />
-                    </Routes>
-                </Router>
-              {/*<MyNavBar/>*/}
-              {/*style={{marginTop:"60px"}*!/*/}
-              {/*<MyNavBar style={{display:"flex"}}/>*/}
-              {/*----------------------------<Footer/>*/}
 
 
-            </>
+          </AuthContext.Provider>
       )
-     {/*</>    ;*/}
-    {/*<HomePage/>*/}
-    {/*<h1>Hello,  sssWorldsddsadd!</h1>*/}
-    {/*<Button variant="outline-success">GDgd</Button>*/}
-    {/*<SecondElement />*/}
 
 
 }
