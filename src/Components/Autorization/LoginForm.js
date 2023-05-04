@@ -1,7 +1,9 @@
-import { useState,useContext} from 'react';
+import React, { useState,useContext} from 'react';
 import {redirect, useNavigate} from "react-router-dom";
 
 import {AuthContext} from '../../AuthContext'
+import {Button, Form, Container} from "react-bootstrap";
+
 const LoginForm = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -53,19 +55,49 @@ const LoginForm = ({ history }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Email:
-                <input type="text" name="username" value={email} onChange={e => setEmail(e.target.value)} />
-            </label>
-            <br />
-            <label>
-                Password:
-                <input type="password" name="password" value={password} onChange={e => setPassword(e.target.value)} />
-            </label>
-            <br />
-            <button type="submit">Добавить</button>
-        </form>
+        <Container style={{display:"flex",justifyContent:"center",marginTop:"4%"}}>
+        {/*<form onSubmit={handleSubmit}>*/}
+        {/*    <label>*/}
+        {/*        Email:*/}
+        {/*        <input type="text" name="username" value={email} onChange={e => setEmail(e.target.value)} />*/}
+        {/*    </label>*/}
+        {/*    <br />*/}
+        {/*    <label>*/}
+        {/*        Password:*/}
+        {/*        <input type="password" name="password" value={password} onChange={e => setPassword(e.target.value)} />*/}
+        {/*    </label>*/}
+        {/*    <br />*/}
+        {/*    <button type="submit">Войти</button>*/}
+        {/*</form>*/}
+    <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="email">
+            <Form.Label>E-mail адрес:</Form.Label>
+            <Form.Control
+                type="email"
+                placeholder="Введите E-mail"
+                value={email}
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+            />
+        </Form.Group>
+
+        <Form.Group controlId="password">
+            <Form.Label>Пароль:</Form.Label>
+            <Form.Control
+                type="password"
+                placeholder="Введите пароль"
+                value={password}
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+            />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+            Войти
+        </Button>
+    </Form>
+        </Container>
+
+
     );
 };
 export default LoginForm;

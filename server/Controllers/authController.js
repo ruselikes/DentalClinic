@@ -61,6 +61,7 @@ class authController{
 
             if (!isMatch){
                 console.log('Неверный пароль')
+                alert('Неверный логин или пароль')
                 return  res.status(400).json({message:"Неверный пароль."})
             }
             const token = generateAccessToken(pacient._id, pacient.roles)

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button,Container} from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
 
 const RegistrationForm = () => {
@@ -82,7 +82,8 @@ const RegistrationForm = () => {
     };
     /*------------------------------------------------------------------*/
     return (
-        <Form onSubmit={handleSubmit}>
+        <Container style={{display:"flex",justifyContent:"center",marginTop:"4%",width:"80%"}}>
+        <Form style={{width:"50%"}}onSubmit={handleSubmit}>
             <Form.Group controlId="email">
                 <Form.Label>E-mail адрес:</Form.Label>
                 <Form.Control
@@ -141,6 +142,7 @@ const RegistrationForm = () => {
                 Register
             </Button>
         </Form>
+        </Container>
     );
 };
 
