@@ -55,7 +55,7 @@ app.delete("/prices/:id", roleMW(["admin"]),UslugiController.deletePrice)
 
 async function startApp(){
     try {
-        await mongoose.connect(config.get("mongooUri")).then((res)=> console.log("БД подключена")).catch((er) => {console.log("DB Error Occured:\n\tError description"+er);throw new Error()})
+        await mongoose.connect(config.get("mongoCompas")).then((res)=> console.log("БД подключена")).catch((er) => {console.log("DB Error Occured:\n\tError description"+er);throw new Error()})
 
         app.listen(PORT,()=> console.log(`App has been started on ${PORT} `))
     }catch (e){

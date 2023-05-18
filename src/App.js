@@ -19,6 +19,8 @@ import AuthPage from "./Pages/AuthPage";
 import {useAuth} from './hooks/authhook'
 import {AuthContext} from './AuthContext'
 import LoginForm from "./Components/Autorization/LoginForm";
+import AboutMe from "./Components/Autorization/Me";
+
 import RegistrationForm from "./Components/Autorization/RegistrationForm";
 function App() {
     const route = useRoutes(true)
@@ -29,6 +31,7 @@ function App() {
           <AuthContext.Provider value={{
               token, login, logout, userId, isAuthenticated}}>
 
+
                     {/*<Container style={{width:"80%"}}>{route}</Container>*/}
                 <Header isA={isAuthenticated}/>
                     <Router >
@@ -38,7 +41,8 @@ function App() {
                             <Route exact path="/prices" element={<Prices/>}/>
                             <Route exact path="/reg" element={<RegistrationForm />} />
                             <Route exact path="/login" element={<LoginForm />} />
-                            <Route exact path="/me" element={<LoginForm />} />
+                            {/*<Route exact path="/login" element={<LoginForm />} />*/}
+                            <Route exact path="/me" element={<AboutMe tok={token} />} />
                             <Route
                                 path="*"
                                 element={<Navigate to="/" replace />}

@@ -11,15 +11,15 @@ module.exports = function() {
         try {
             const token = req.headers.authorization.split(' ')[1]
             if (!token) {
-                return res.status(403).json({message: "Пользователь не авторизован. Нет доступа"})
+                return res.status(403).json({message: "aMW.Пользователь не авторизован. Нет доступа",token:token,auth: req.headers.authorization})
             }
             const decodedData = jwt.verify(token, secret)
-            console.log(decodedData)
+            console.log("Из authMW",decodedData)
             req.user = decodedData
             next()
         } catch (e) {
             console.log(e)
-            return res.status(403).json({message: "Пользователь не авторизован. Нет доступа"})
+            return res.status(403).json({message: "ОШибочный в aMWПользователь не авторизован. Нет доступа"})
         }
     }
 

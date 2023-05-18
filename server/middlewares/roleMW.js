@@ -10,7 +10,7 @@ module.exports = function (roles) {
         try {
             const token = req.headers.authorization.split(' ')[1]
             if (!token) {
-                return res.status(403).json({message: "Пользователь не авторизован. Авторизируйтесь!"})
+                return res.status(403).json({message: "rMWПользователь не авторизован. Авторизируйтесь!"})
             }
             let {roles: userRoles} = jwt.verify(token, secret)
             let hasRole = false
