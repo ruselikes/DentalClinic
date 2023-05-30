@@ -10,6 +10,7 @@ router.post('/registration',[
 ], authController.registration)
 router.post('/login',authController.login)
 router.get('/users',roleMW(["admin"]),authController.getUsers)
+// router.get('/me',authController.getMe)
 router.get('/me',authMW(),authController.getMe)
 
 

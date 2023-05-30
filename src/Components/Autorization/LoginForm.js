@@ -9,37 +9,57 @@ const LoginForm = ({ history }) => {
     const [password, setPassword] = useState('');
     const auth = useContext(AuthContext)
     const navigate = useNavigate();
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    try{
-        // Отправка запроса на серверную часть
-        // const userdata = await fetch('http://localhost:5000/auth/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ email, password })
-        // });
-        // auth.login(userdata.token)
 
-        fetch('http://localhost:5000/auth/login', {
+    async function login (){
+        const result = await fetch('http://localhost:5000/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
-        })
-            .then(res => res.json()
-            ).then(
-                userData =>
-                {if (userData.token)
-                {
-                    auth.login(userData.token);
-                    auth.token = userData.token;
-                    console.log("Из формы входа токен:",userData.token);
-                    console.log("Из формы входа токен из authcontext:",auth.token)
-                    navigate('/');
-                }
-                else {
-                    alert("Неверный логин или пароль")
-                }
-                })
+        }).then( res => res.json())
+        console.log("Мой токен!",result)
+        {
+            if (result.token)
+            {
+                await auth.login(result.token);
+                auth.token = result.token;
+                console.log("Из формы входа токен:",result);
+                console.log("Из формы входа токен из authcontext:",auth.token)
+                console.log("result.token",result.token)
+                await localStorage.setItem("userInfo", JSON.stringify({token:result.token}));
+                navigate('/me');
+            }
+            else {
+                alert("Неверный логин или пароль")
+            }
+        }
+    // console.log(token)
+
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    try{
+    login()
+        //
+        // await fetch('http://localhost:5000/auth/login', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ email, password })
+        // })
+        //     .then(res => res.json()
+        //     ).then(
+        //         userData =>
+        //         {if (userData.token)
+        //         {
+        //             await auth.login(userData.token);
+        //             auth.token = userData.token;
+        //             console.log("Из формы входа токен:",userData.token);
+        //             console.log("Из формы входа токен из authcontext:",auth.token)
+        //             navigate('/');
+        //         }
+        //         else {
+        //             alert("Неверный логин или пароль")
+        //         }
+        //         })
 
 
 

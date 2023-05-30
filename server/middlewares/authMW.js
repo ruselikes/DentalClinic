@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
-const config = require("config");
-const secret = config.get("secret")
+const config = require("../config/default.json");
+const secret = config.secret
 
 module.exports = function() {
     return function (req, res, next) {
@@ -14,7 +14,7 @@ module.exports = function() {
                 return res.status(403).json({message: "aMW.Пользователь не авторизован. Нет доступа",token:token,auth: req.headers.authorization})
             }
             const decodedData = jwt.verify(token, secret)
-            console.log("Из authMW",decodedData)
+            console.log("Из authMW decodettada",decodedData)
             req.user = decodedData
             next()
         } catch (e) {

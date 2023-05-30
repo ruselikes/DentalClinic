@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="test.css">
+
+</head>
+<body>
+<div class="tabs">
+  <div class="tab" id="personal-tab">Личный кабинет</div>
+  <div class="tab" id="appointments-tab">Приемы</div>
+</div>
+
+<div class="content">
+  <div id="personal-content" class="tab-content">
+    <h2>Личный кабинет</h2>
+    <div class="form-group">
+      <label for="name">Имя:</label>
+      <input type="text" id="name" />
+    </div>
+    <div class="form-group">
+      <label for="surname">Фамилия:</label>
+      <input type="text" id="surname" />
+    </div>
+    <div class="form-group">
+      <label for="middlename">Отчество:</label>
+      <input type="text" id="middlename" />
+    </div>
+    <div class="form-group">
+      <label for="phone">Номер телефона:</label>
+      <input type="text" id="phone" />
+    </div>
+  </div>
+
+  <div id="appointments-content" class="tab-content">
+    <h2>Приемы</h2>
+    <button id="upcoming-appointments-btn">Предстоящие приемы</button>
+    <button id="past-appointments-btn">Прошедшие приемы</button>
+    <div id="appointments-list"></div>
+  </div>
+</div>
+  <script src="test.js"></script>
+</body>
+</html>

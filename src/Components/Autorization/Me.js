@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../AuthContext";
+import "./Me.css"
 
 const AboutMe = () => {
     const [email, setEmail] = useState('');
@@ -8,30 +9,34 @@ const AboutMe = () => {
     const [userData,setUserData] = useState({user: {surname: null,name: null, email: null,middlename: null}})
     const [token, setToken] = useState(auth.token)
 
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    console.log("usInfo",userInfo)
+    async function getAboutMe (){
+        const pacient = await fetch('http://localhost:5000/auth/me',
+            {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', // суть ошибки здесь, token не такой, или не так передается
+                    'Authorization':`Bearer ${userInfo.token}`}
+            }).then(user => user.json())
+
+            if (pacient)
+            {
+                setUserData(pacient);
+                console.log("Юзер дата",userData, userData.user.surname)
+            }
+            else{
+                alert("Произошла ошибка при получении юзера");
+            }
+            }
     console.log("token (перед ним стоит token = auth.token: ",auth.token)
     useEffect(() => {
-        console.log("auth.token внутри эффекта: ",auth.token)
-        fetch('http://localhost:5000/auth/me',
-            {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', // суть ошибки здесь, token не такой, или не так передается
-            'Authorization':`Bearer ${auth.token}`}
-            })
-
-            .then(res => res.json())
-            .then(user => {if (user.user)
-                {setUserData(user);console.log("Юзер дата",userData, userData.user.surname,"user.user",user.user)}
-                else{
-                    alert("Произошла ошибка при получении");
-            }
-            })
-            .catch(error => console.error(error));
+        getAboutMe()
 
 
-    }, [token,userData]);
+    }, []);
 
     return (
-        <div>
+        <div className="cont">
             <h2>{`${userData.user.surname} ${userData.user.name} ${userData.user.middlename}`}</h2>
             <p>Email: {userData.user.email}</p>
         </div>

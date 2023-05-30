@@ -7,7 +7,7 @@ import "./CardDok.css"
 const CardDok = (props) => {
     return (
         <Card className={"CardDok"}>
-            <Card.Img variant="top" src={photo1} />
+            <Card.Img variant="top" src={require(props.dok.photo1)} />
             <Card.Body>
                 <Card.Title style={{textAlign:"center"}}>{props.dok.surname} {props.dok.name} {props.dok.middlename} </Card.Title>
                 {/*<Card.Text>*/}

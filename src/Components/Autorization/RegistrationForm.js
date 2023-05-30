@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button,Container} from "react-bootstrap";
-import { useHistory } from 'react-router-dom';
+import {useHistory, useNavigate} from 'react-router-dom';
 
 const RegistrationForm = () => {
 
@@ -10,19 +10,12 @@ const RegistrationForm = () => {
     const [middlename, setMiddleName] = useState("");
     const [password, setPassword] = useState("");
     const [roles,setRole] = useState(["pacient"])
+    const navigate = useNavigate();
     /*------------------------------------------------*/
     const [form,setForm] = useState({
         email:'',password:'',firstName:'',lastName:'',middleName:'',roles:""
     })
-    // const changeHandler = event =>{
-    //     setForm(...form,event.target.name,event.target.value)
-    // }
-    /*------------------------------------------------------------------*/
-    // const history = useHistory();
 
-    // const handleRegistrationClick = () => {
-    //     history.push('/registration');
-    // };
     const validateEmail = (email) =>{
         return email.length >0; // не менее 5 символо
     }
@@ -75,7 +68,12 @@ const RegistrationForm = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password, name, surname, middlename, roles})
 
-        }).then(res => res.json())
+        }).then(res => {
+            res.json();
+            alert("Пожалуйста, авторизируйтесь!");
+            navigate("/login");
+            }
+        )
             .catch(error => {console.error(error);console.log("Ошибка внутри кнопки формы!)")});
 
 

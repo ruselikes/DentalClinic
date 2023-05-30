@@ -93,7 +93,7 @@ class authController{
             })
         }
         catch (e){
-            return res.status(400).json({message: "Что то не так",error:e.message})
+            return res.status(400).json({message: "Что то не так при getMe",error:e.message})
 
         }
     }

@@ -91,16 +91,8 @@ function PostList() {
     };
 
     return (
+
         <div>
-            <h1>Список постов</h1>
-            <ul>
-                {posts.map(post => (
-                    <li key={post._id}>
-                        <h2>{post.title}</h2>
-                        <p>{post.text}</p>
-                    </li>
-                ))}
-            </ul>
             <form onSubmit={handleSubmit}>
                 <h2>Добавить новый пост</h2>
                 <div>
@@ -113,6 +105,16 @@ function PostList() {
                 </div>
                 <button type="submit">Добавить</button>
             </form>
+            <h1>Список постов</h1>
+            <ul>
+                {posts.map(post => (
+                    <li key={post._id}>
+                        <h2>{post.title}</h2>
+                        <p>{post.text}</p>
+                    </li>
+                ))}
+            </ul>
+
         </div>
     );
 }
