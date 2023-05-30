@@ -10,7 +10,7 @@ router.delete('/doctor/delete',adminController.deleteDoc)
 // router.get('/me',authController.getMe)
 router.get('/doctor/getAll',adminController.getDocs)
 router.put('/doctor/edit/:id',adminController.editDoc)
-router.put('/doctor/del/:id',adminController.deleteDoc)
+router.delete('/doctor/del/:id',adminController.deleteDoc)
 // router.get('/me',authMW(),adminController.getMe)
 
 

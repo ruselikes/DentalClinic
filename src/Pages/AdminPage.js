@@ -1,4 +1,5 @@
 import  { React,useState ,useEffect} from 'react';
+import Modal from 'react-bootstrap/Modal';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 const AdminPage = () => {
     // State для данных докторов и персонала
@@ -6,6 +7,8 @@ const AdminPage = () => {
     const [staff, setStaff] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [editingDoctorId, setEditingDoctorId] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingDoctorId, setDeletingDoctorId] = useState(null);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -68,20 +71,33 @@ const AdminPage = () => {
             [event.target.name]: event.target.value,
         });
     };
-    const handleDeleteDoctor = async (doctorId) => {
+
+    const handleDeleteDoctor = (doctorId) => {
+
+        setDeletingDoctorId(doctorId.toString());
+
+        console.log("перехват!",doctorId)
+        setShowDeleteModal(true);
+    };
+    const confirmDeleteDoctor = async () => {
         try {
-            await fetch(`http://localhost:5000/admin/doctor/del/${doctorId}`, {
+            await fetch(`http://localhost:5000/admin/doctor/del/${deletingDoctorId}`, {
                 method: 'DELETE',
             });
 
             // Обновить список докторов без удаленного доктора
-            const updatedDoctors = doctors.filter((doctor) => doctor._id !== doctorId);
+            const updatedDoctors = doctors.filter((doctor) => doctor._id !== deletingDoctorId);
             setDoctors(updatedDoctors);
         } catch (error) {
             console.log(error);
         }
+        setShowDeleteModal(false);
+        setDeletingDoctorId(null);
     };
-
+    const cancelDeleteDoctor = () => {
+        setShowDeleteModal(false);
+        setDeletingDoctorId(null);
+    };
 
 
     const handleEditDoctor = (doctorId) => {
@@ -205,9 +221,11 @@ const AdminPage = () => {
                         <Button type="submit">Добавить доктора</Button>
                     </Form>
                     <h3>Список докторов</h3>
+                    {console.log("список докторов",doctors)}
                     <ul>
                         {doctors.map((doctor) => (
                             <li key={doctor._id}>
+                                <h6>{doctor._id}{typeof(doctor._id)}</h6>
                                 {doctor.name} {doctor.surname} - {doctor.middlenames}
                                 <Button variant="link" onClick={() => handleEditDoctor(doctor._id)}>
                                     Редактировать
@@ -218,6 +236,20 @@ const AdminPage = () => {
                             </li>
                         ))}
                     </ul>
+                    <Modal show={showDeleteModal} onHide={cancelDeleteDoctor}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Подтверждение удаления</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Вы точно хотите удалить доктора?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={cancelDeleteDoctor}>
+                                Отмена
+                            </Button>
+                            <Button variant="danger" onClick={confirmDeleteDoctor}>
+                                Да
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                     {editingDoctorId && (
                         <div>
                             <h2>Редактировать доктора</h2>
