@@ -24,11 +24,13 @@ const Prices = () => {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [price, setPrice] = useState('');
+    const [buttonText, setButtonText] = useState('+'); // State variable for the button text
     const handleTitleChange = event => setTitle(event.target.value);
 
     // обработчик изменения поля текста
     const handleTextChange = event => setText(event.target.value);
     const handlePriceChange = event => setPrice(event.target.value);
+    const [serviceFormContainer, setServiceFormContainer] = useState(false); // State variable to control the visibility of the form
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -46,6 +48,12 @@ const Prices = () => {
             })
             .catch(error => console.error(error));
     };
+
+    const toggleServiceForm = () => {
+        setServiceFormContainer(!serviceFormContainer);
+        setButtonText(serviceFormContainer ? '+' : '-');
+    };
+
     // загружаем существующие посты при монтировании компонента
     useEffect(() => {
         // axios.post('http://localhost:5000/api/posts')
@@ -65,23 +73,9 @@ const Prices = () => {
                 </div>
 
             </Container>
-            {/*<form onSubmit={handleSubmit}>*/}
-            {/*    <h2>Добавить новый пост</h2>*/}
-            {/*    <div>*/}
-            {/*        <label htmlFor="title">Заголовок:</label>*/}
-            {/*        <input type="text" id="title" value={title} onChange={handleTitleChange} />*/}
-            {/*    </div>*/}
-            {/*    <div>*/}
-            {/*        <label htmlFor="text">Текст:</label>*/}
-            {/*        <textarea id="text" value={text} onChange={handleTextChange} />*/}
-            {/*    </div>*/}
-            {/*    <div>*/}
-            {/*        <label htmlFor="text">Стоимость:</label>*/}
-            {/*        <textarea id="text" value={price} onChange={handlePriceChange} />*/}
-            {/*    </div>*/}
-            {/*    <button type="submit">Добавить</button>*/}
-            {/*</form>*/}
 
+            <button id="open-form-btn" className="open-form-btn" onClick={toggleServiceForm}>{buttonText}</button>
+            {serviceFormContainer && (
             <div id="service-form-container">
 
                 <form id="service-form" onSubmit={handleSubmit}>
@@ -99,7 +93,7 @@ const Prices = () => {
                     </div>
                     <button type="submit" className="btn btn-primary">Добавить</button>
                 </form>
-            </div>
+            </div>)}
         </>
     );
 
