@@ -7,7 +7,7 @@ import photo1 from "../Components/ilonasergeevna.jpg"
 
 const Doctors = () => {
     const [dokcards,setDocCard] = useState([
-        {id:1, name: "Илона", surname: "Маргасова", position:"Стоматолог",middlename:"Сергеевна",exp:"6 лет",photo1: "../ilonasergeevna.jpg" },
+        {id:1, name: "Илона", surname: "Маргасова", position:"Стоматолог",middlename:"Сергеевна",exp:"6 лет" },
         {id:2, name: "Алина", surname: "Почмова", position:"Стоматолог",middlename:"Викторовна",exp:"6 лет" },
         {id:3, name: "Наиля", surname: "Иванова", position:"Стоматлог-Хирург",middlename:"Дмитриевна",exp:"4 лет" },
         {id:4, name: "Наиля", surname: "Иванова", position:"Стоматлог-Хирург",middlename:"Дмитриевна",exp:"4 лет" },

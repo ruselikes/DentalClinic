@@ -58,7 +58,7 @@ function PostList() {
 
     // загружаем существующие посты при монтировании компонента
     useEffect(() => {
-        // axios.post('http://localhost:5000/api/posts')
+
        fetch('http://localhost:5000/api/posts')
 
             .then(res => res.json())

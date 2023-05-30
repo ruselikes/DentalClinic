@@ -1,8 +1,8 @@
 const Router = require("express").Router
-const authController = require("./Controllers/authController")
+const authController = require("../Controllers/authController")
 const { check } = require('express-validator')
-const authMW = require('./middlewares/authMW')
-const roleMW = require('./middlewares/roleMW')
+const authMW = require('../middlewares/authMW')
+const roleMW = require('../middlewares/roleMW')
 const router = new Router()
 router.post('/registration',[
     check('username', "Имя пользователя не может быть пустым").notEmpty(),

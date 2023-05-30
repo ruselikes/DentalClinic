@@ -22,7 +22,9 @@ import LoginForm from "./Components/Autorization/LoginForm";
 import AboutMe from "./Components/Autorization/Me";
 
 import RegistrationForm from "./Components/Autorization/RegistrationForm";
+import AdminPage from "./Pages/AdminPage";
 function App() {
+    let role  = "admin"
     const route = useRoutes(true)
     const isA = true;
     const {token, login, logout, userId, ready} = useAuth()
@@ -32,9 +34,12 @@ function App() {
               token, login, logout, userId, isAuthenticated}}>
 
 
-                    {/*<Container style={{width:"80%"}}>{route}</Container>*/}
-                <Header isA={isAuthenticated}/>
+
+
+
                     <Router >
+                        <Header isA={isAuthenticated }/>
+                        <h1> Пациент я</h1>
                         <Routes>
                             <Route  exact path="/" element={< Home/>}/>
                             <Route exact path="/doctors" element={<Doctors/>}/>
@@ -43,12 +48,32 @@ function App() {
                             <Route exact path="/login" element={<LoginForm />} />
                             {/*<Route exact path="/login" element={<LoginForm />} />*/}
                             <Route exact path="/me" element={<AboutMe tok={token} />} />
+                            <Route exact path="/admin" element={<AdminPage />}/>
                             <Route
                                 path="*"
                                 element={<Navigate to="/" replace />}
                             />
                         </Routes>
                     </Router>
+
+
+              {/*{isAuthenticated && role === "admin" && (*/}
+              {/*<Router >*/}
+              {/*    /!*<Header isA={isAuthenticated }/>*!/*/}
+              {/*    <h1> Админ я</h1>*/}
+              {/*    <Routes>*/}
+              {/*        <Route  exact path="/" element={< Home/>}/>*/}
+              {/*        <Route exact path="/reg" element={<RegistrationForm />} />*/}
+              {/*        <Route exact path="/login" element={<LoginForm />} />*/}
+              {/*        /!*<Route exact path="/login" element={<LoginForm />} />*!/*/}
+              {/*        <Route exact path="/me" element={<AboutMe tok={token} />} />*/}
+              {/*        <Route exact path="/admin" element={<AdminPage />}/>*/}
+              {/*        <Route*/}
+              {/*            path="*"*/}
+              {/*            element={<Navigate to="/" replace />}*/}
+              {/*        />*/}
+              {/*    </Routes>*/}
+              {/*</Router>)}*/}
 
 
 

@@ -7,18 +7,20 @@ const authMW = require('./middlewares/authMW')
 const roleMW = require('./middlewares/roleMW')
 const app = express()
 const PORT = config.get("port")
-const authRouter = require('./authRouter')
+const authRouter = require('./Router/authRouter')
 const Post = require('./models/Post')
 const Usluga = require('./models/Usluga')
 const cors = require('cors');
 const {check} = require("express-validator");
 const authController = require("./Controllers/authController");
+const adminRouter = require("./Router/adminRouter")
 
 app.use(cors({origin: 'http://localhost:3000'}));
 
 app.use(express.json())
 
 app.use("/auth", authRouter)
+app.use("/admin", adminRouter)
 // app.post('/auth/registration',[
 //     check('username', "Имя пользователя не может быть пустым").notEmpty(),
 //     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
@@ -50,7 +52,7 @@ app.get("/api/posts/:title", function (req, res) {
 });
 //--------------------Услуги клиники------------------
 app.get("/prices", UslugiController.getPrices);
-app.post('/prices', UslugiController.addPrice);
+app.post('/prices',roleMW(["admin"]), UslugiController.addPrice);
 app.delete("/prices/:id", roleMW(["admin"]),UslugiController.deletePrice)
 
 async function startApp(){

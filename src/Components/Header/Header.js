@@ -11,9 +11,19 @@ import {AuthContext} from '../../AuthContext'
 const Header = (isAutorization) => {
 
     const auth = useContext(AuthContext)
+
+    const navigate = useNavigate()
     const logoutHandler = event => {
         event.preventDefault();
+        let myData = localStorage.getItem('userInfo');
+        console.log("до auth.logout",myData);
+        console.log("до auth.logout at",auth.token);
         auth.logout();
+        navigate('/')
+        localStorage.removeItem("userInfo")
+        myData = localStorage.getItem('userInfo');
+        console.log("после auth.logout",myData);
+        console.log("после auth.logout at",auth.token);
 
     }
     if (!isAutorization.isA) {
@@ -39,7 +49,7 @@ const Header = (isAutorization) => {
                                 <Nav.Link href="/">Главная</Nav.Link>
                                 <Nav.Link href="/doctors">Врачи</Nav.Link>
                                 <Nav.Link href="/prices">Услуги</Nav.Link>
-                                <Nav.Link href="/reg1">Регистрация</Nav.Link>
+
                             </Nav>
 
                             <Nav>
@@ -116,7 +126,7 @@ const Header = (isAutorization) => {
                         <Nav.Link href="/">Главная</Nav.Link>
                         <Nav.Link href="/doctors">Врачи</Nav.Link>
                         <Nav.Link href="/prices">Услуги</Nav.Link>
-                        <Nav.Link href="/reg1">Регистрация</Nav.Link>
+
                     </Nav>
 
                     <Nav>
