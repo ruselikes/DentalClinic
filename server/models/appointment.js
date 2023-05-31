@@ -23,7 +23,14 @@ const appointmentSchema = new Schema({
         type: String,
         required: true,
         default: "Предстоит"
+    },
+    serviceId:
+    {
+        type: Types.ObjectId,
+        ref: 'Usluga',
+        required: true
     }
+
 });
 
 module.exports =  model('Appointment', appointmentSchema);

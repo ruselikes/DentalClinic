@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ru from 'date-fns/locale/ru';
-import { format, getHours, getMinutes,toDate,zonedTimeToUtc  } from 'date-fns';
+import { format, getHours, getMinutes,toDate  } from 'date-fns';
 
 
 
@@ -21,7 +21,7 @@ const UslugaPage = () => {
     const [selectedDoctor, setSelectedDoctor] = useState("");
     const [min,setMin] = useState("")
     const [hours,setHours] = useState("")
-
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const { id } = useParams();
     console.log("Datatatatatat",selectedDate)
 
@@ -53,7 +53,7 @@ const UslugaPage = () => {
         console.log('Выбранная дата:', formattedDate);
         console.log('Выбранное время:', hours + ':' + minutes);
     };
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
 
     console.log("Огромная пачка данных","юзер инфом",userInfo,
         "айди услуги",id,
@@ -89,9 +89,9 @@ const UslugaPage = () => {
     }
     const createAppoinment = async (event) =>{
         event.preventDefault();
-        ConvertData(selectedDate)
-        const appointmentDate = new Date(selectedDate);
-        const appointmentTime = new Date(selectedDate);
+        // ConvertData(selectedDate)
+        // const appointmentDate = new Date(selectedDate);
+        // const appointmentTime = new Date(selectedDate);
         try {
             const response = await fetch('http://localhost:5000/priem/addNew', {
                 method: 'POST',
@@ -103,6 +103,7 @@ const UslugaPage = () => {
                     doctorId: selectedDoctor,
                     appointmentDate: selectedDate, // Присваиваем выбранную дату
                     appointmentTime: selectedDate,
+                    serviceId: id
                 })
             });
 
@@ -149,11 +150,12 @@ const UslugaPage = () => {
             <DatePicker
                 selected={selectedDate}
                 onChange={date =>
-                {   const selectedDate = zonedTimeToUtc (date, '+03:00');
-
-                    // Форматирование выбранной даты и времени
-                    const formattedDate = format(selectedDate, 'dd-MM-yyyy HH:mm:ss');
-                    setSelectedDate(formattedDate);
+                {
+                    // const selectedDate = zonedTimeToUtc (date, '+03:00');
+                    //
+                    // // Форматирование выбранной даты и времени
+                    // const formattedDate = format(selectedDate, 'dd-MM-yyyy HH:mm:ss');
+                    setSelectedDate(date);
 
                 }}
                 showTimeSelect

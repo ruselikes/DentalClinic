@@ -15,6 +15,7 @@ const {check} = require("express-validator");
 const authController = require("./Controllers/authController");
 const adminRouter = require("./Router/adminRouter")
 const appointmentRouter = require("./Router/appointmentRouter")
+const doctorRouter = require("./Router/doctorRouter")
 
 app.use(cors({origin: 'http://localhost:3000'}));
 
@@ -23,6 +24,8 @@ app.use(express.json())
 app.use("/auth", authRouter)
 app.use("/admin", adminRouter)
 app.use("/priem", appointmentRouter)
+app.use("/doctor", doctorRouter)
+
 // app.post('/auth/registration',[
 //     check('username', "Имя пользователя не может быть пустым").notEmpty(),
 //     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})

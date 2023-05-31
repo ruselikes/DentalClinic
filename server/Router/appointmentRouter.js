@@ -6,7 +6,7 @@ const roleMW = require('../middlewares/roleMW')
 const router = new Router()
 router.post('/addNew', appointmentConroller.addAppointment)
 // router.post('/login',appointmentConroller.login)
-// router.get('/users',roleMW(["admin"]),appointmentConroller.add)
+router.get('/getMy/:id',appointmentConroller.getSmbdAppointments)
 // // router.get('/me',authController.getMe)
 // router.get('/me',authMW(),appointmentConroller.getMe)
 
