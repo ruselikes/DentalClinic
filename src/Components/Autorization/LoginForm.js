@@ -25,7 +25,7 @@ const LoginForm = ({ history }) => {
                 console.log("Из формы входа токен:",result);
                 console.log("Из формы входа токен из authcontext:",auth.token)
                 console.log("result.token",result.token)
-                await localStorage.setItem("userInfo", JSON.stringify({token:result.token}));
+                await localStorage.setItem("userInfo", JSON.stringify({token:result.token,id:result.id}));
                 navigate('/me');
             }
             else {

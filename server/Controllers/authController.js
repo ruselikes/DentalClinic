@@ -11,7 +11,7 @@ const generateAccessToken = (id, roles) => {
         id,
         roles
     }
-    return jwt.sign(payload, secret, {expiresIn: "24h"} )
+    return jwt.sign(payload, secret, {expiresIn: "1h"} )
 }
 
 class authController{
@@ -67,7 +67,7 @@ class authController{
             const token = generateAccessToken(pacient._id, pacient.roles)
             console.log({token})
             // localStorage.setItem('userData', JSON.stringify(token));
-            return res.status(200).json({token:token})
+            return res.status(200).json({token:token,id:pacient._id})
 
 
 

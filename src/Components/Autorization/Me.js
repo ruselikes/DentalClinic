@@ -48,4 +48,61 @@ const AboutMe = () => {
     );
 };
 
+
+// <div className="container" style={{marginTop: "50px"}}>
+//     <p>Курьер: <b>{courier.name + " " + courier.surname}</b></p>
+//     <Row>
+//         <Col>
+//             <Tabs>
+//                 <Tab eventKey="home" title="Активный маршрут">
+//
+//                     <div style={{
+//                         width: "100%",
+//                         display: "flex",
+//                         justifyContent: "space-between",
+//                         flexDirection: 'column'
+//                     }}>
+//                         <div className="overflow-auto h-100" style={{maxHeight: "550px"}}>
+//                             {Array.isArray(routes) ? routes.map((route) => {
+//                                 if (route.isDelivered === false) {
+//                                     return (
+//                                         <ActiveRouteCard pr_route={route}
+//                                                          refresh={{func: setRoutes, auth: auth.userId}}/>
+//                                     )
+//                                 }
+//                                 return null;
+//                             }) : []}
+//                         </div>
+//                     </div>
+//
+//                 </Tab>
+//                 <Tab eventKey="profile" title="Завершенные маршруты">
+//
+//                     <div style={{
+//                         width: "100%",
+//                         display: "flex",
+//                         justifyContent: "space-between",
+//                         flexDirection: 'column'
+//                     }}>
+//                         <div className="overflow-auto h-100" style={{maxHeight: "480px", paddingTop: '10px'}}>
+//                             {Array.isArray(routes) ? routes.map((route) => {
+//                                     if (route.isDelivered === true) {
+//                                         return <RouteCard pr_route={route} key={route._id}/>
+//                                     }
+//                                     return null;
+//                                 }
+//                             ) : []}
+//                         </div>
+//                     </div>
+//                 </Tab>
+//             </Tabs>
+//         </Col>
+//
+//         <Col style={{height: '550px'}} xs={7}>
+//             <Map/>
+//         </Col>
+//
+//     </Row>
+// </div>
+
 export default AboutMe;

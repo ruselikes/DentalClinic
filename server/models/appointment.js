@@ -2,12 +2,12 @@ const {Schema,model,Types} = require("mongoose")
 
 const appointmentSchema = new Schema({
     patientId: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Patient',
         required: true
     },
     doctorId: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Doctor',
         required: true
     },
@@ -16,7 +16,7 @@ const appointmentSchema = new Schema({
         required: false
     },
     appointmentTime: {
-        type: String,
+        type: Date,
         required: false
     },
     status: {

@@ -4,7 +4,8 @@ import {useParams} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ru from 'date-fns/locale/ru';
-import { format, getHours, getMinutes,toDate } from 'date-fns';
+import { format, getHours, getMinutes,toDate,zonedTimeToUtc  } from 'date-fns';
+
 
 
 
@@ -20,8 +21,23 @@ const UslugaPage = () => {
     const [selectedDoctor, setSelectedDoctor] = useState("");
     const [min,setMin] = useState("")
     const [hours,setHours] = useState("")
+
     const { id } = useParams();
     console.log("Datatatatatat",selectedDate)
+
+    function ConvertData(timeDelivered) {
+        const date = new Date(timeDelivered);
+        const hours = String(date.getHours()).padStart(2, '0'); // Get hours with leading zero if necessary
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // Get minutes with leading zero if necessary
+
+        const day = String(date.getDate()).padStart(2, '0'); // Get day of the month with leading zero if necessary
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Get month (add 1 since it's zero-based) with leading zero if necessary
+        const year = String(date.getFullYear()).slice(2); // Get the last two digits of the year
+
+        const formattedDate = `${hours}:${minutes},${day}.${month}.${year}`;
+        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss",formattedDate); // Example output: 11:55,21.05.23
+        return formattedDate;
+    }
     const handleDateChange = async (date) => {
         const formattedDate = format(date, 'dd-MM-yyyy');
         const hours = getHours(date);
@@ -42,7 +58,7 @@ const UslugaPage = () => {
     console.log("Огромная пачка данных","юзер инфом",userInfo,
         "айди услуги",id,
         "доктора",doctors,
-        "выбранный",selectedDoctor._id,
+        "выбранный",selectedDoctor,
         )
 
 
@@ -71,7 +87,38 @@ const UslugaPage = () => {
             alert("Произошла ошибка при получении услуги");
         }
     }
+    const createAppoinment = async (event) =>{
+        event.preventDefault();
+        ConvertData(selectedDate)
+        const appointmentDate = new Date(selectedDate);
+        const appointmentTime = new Date(selectedDate);
+        try {
+            const response = await fetch('http://localhost:5000/priem/addNew', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                    patientId: userInfo.id,
+                    doctorId: selectedDoctor,
+                    appointmentDate: selectedDate, // Присваиваем выбранную дату
+                    appointmentTime: selectedDate,
+                })
+            });
 
+            if (response.ok) {
+                const zapis = await response.json();
+                console.log(zapis)
+                // Очистка формы после успешной регистрации
+
+            } else {
+                throw new Error('Ошибка при записи');
+            }
+        } catch (error) {
+            console.log(error);
+            alert('Ошибка при записи. Перепроверьте и отправьте еще раз!');
+        }
+    };
     useEffect(() => {
         getUslugaInfo()
         fetchDoctors()
@@ -101,7 +148,14 @@ const UslugaPage = () => {
             <p>Выбранный доктор: {selectedDoctor}</p>
             <DatePicker
                 selected={selectedDate}
-                onChange={date => setSelectedDate(date)}
+                onChange={date =>
+                {   const selectedDate = zonedTimeToUtc (date, '+03:00');
+
+                    // Форматирование выбранной даты и времени
+                    const formattedDate = format(selectedDate, 'dd-MM-yyyy HH:mm:ss');
+                    setSelectedDate(formattedDate);
+
+                }}
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={60}
@@ -109,6 +163,7 @@ const UslugaPage = () => {
                 dateFormat="d MMMM, yyyy HH:mm"
                 locale={ru}
             />
+            <button onClick={createAppoinment}>Записаться</button>
             {console.log(typeof(selectedDate))}
         </div>
     );
