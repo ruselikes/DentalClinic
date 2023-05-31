@@ -33,7 +33,21 @@ class adminController{
             // Сохранение нового доктора в базе данных
             const savedDoctor = await newDoctor.save();
 
-            res.status(201).json(savedDoctor);
+            await fetch(`http://localhost:5000/auth/registration`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email:email,
+                    password:password,
+                    role: "doctor",
+                    userId:savedDoctor._id
+                })
+            })
+
+            res.status(200).json(savedDoctor);
+
         } catch (error) {
             res.status(500).json({ error: error.message, message:"Ошибка при добавлении товарища доктора" });
         }
