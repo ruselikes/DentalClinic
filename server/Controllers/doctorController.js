@@ -56,7 +56,7 @@ class doctorController{
                 console.log('Врача нет')
                 return res.status(400).json({message:"Врач не найден."})
             }
-            const isMatch = await bcrypt.compare(password,doc.password)
+            const isMatch = password == doc.password
             // const isMatch = password == pacient.password
 
             if (!isMatch){

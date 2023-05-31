@@ -9,7 +9,7 @@ const RegistrationForm = () => {
     const [surname, setLastName] = useState("");
     const [middlename, setMiddleName] = useState("");
     const [password, setPassword] = useState("");
-    const [roles,setRole] = useState(["pacient"])
+
     const navigate = useNavigate();
     /*------------------------------------------------*/
     const [form,setForm] = useState({
@@ -60,13 +60,13 @@ const RegistrationForm = () => {
             return;
         }
         console.log("Form submitted");
-        const jsonObj = {email:email,password:password,name:name,surname:surname,middlename:middlename,roles:roles}
+        const jsonObj = {email:email,password:password,name:name,surname:surname,middlename:middlename}
         console.log(JSON.stringify(jsonObj))
 
         fetch('http://localhost:5000/auth/registration', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, name, surname, middlename, roles})
+            body: JSON.stringify({ email, password, name, surname, middlename})
 
         }).then(res => {
             res.json();

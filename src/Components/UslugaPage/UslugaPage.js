@@ -110,6 +110,9 @@ const UslugaPage = () => {
             if (response.ok) {
                 const zapis = await response.json();
                 console.log(zapis)
+                alert("Успешная запись!")
+                setSelectedDoctor("");
+                setSelectedDate(null);
                 // Очистка формы после успешной регистрации
 
             } else {

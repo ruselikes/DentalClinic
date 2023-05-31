@@ -28,13 +28,9 @@ class authController{
             const hashedPassword =await bcrypt.hash(password,2)
             const new_pacient = new Pacient ({email:email,password: hashedPassword,surname:surname,name:name,middlename:middlename,roles:roles})
             await new_pacient.save()
-            if (req.body.roles.includes("admin")){
-            res.status(201).json({message:"Админ добавлен систему",user:new_pacient})
-            }
-            else if (req.body.roles.includes("pacient")){
                 res.status(201).json({message:"Пациент добавлен систему",user:new_pacient})
             }
-        }
+
         catch(e){
         res.status(500).json({message:"На моем серверe (при регистрации) что то не так. tg: trimberg",error: e.message})
         }
@@ -67,7 +63,7 @@ class authController{
             const token = generateAccessToken(pacient._id, pacient.role)
             console.log({token})
             // localStorage.setItem('userData', JSON.stringify(token));
-            return res.status(200).json({token:token,id:pacient._id,role:"пациент"})
+            return res.status(200).json({token:token,id:pacient._id,role:pacient.role})
 
 
 
