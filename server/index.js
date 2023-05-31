@@ -52,6 +52,7 @@ app.get("/api/posts/:title", function (req, res) {
 });
 //--------------------Услуги клиники------------------
 app.get("/prices", UslugiController.getPrices);
+app.get("/prices/:id",UslugiController.getPriceById)
 app.post('/prices',roleMW(["admin"]), UslugiController.addPrice);
 app.delete("/prices/:id", roleMW(["admin"]),UslugiController.deletePrice)
 

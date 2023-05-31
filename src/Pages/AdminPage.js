@@ -44,27 +44,29 @@ const AdminPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
-            }).then( res => res.json()).then
-            (
-                data => {
-                    setDoctors([...doctors, data]);
-                    // Очистка формы после успешной регистрации
-                    setFormData({
-                        email: '',
-                        password: '',
-                        name: '',
-                        surname: '',
-                        middlename: '',
-                    })
-                }
+            });
 
-            ).catch(er => alert("Ошибка при отправке формы. Перепроверьте и отпраьте еще раз!"))
-
-
+            if (response.ok) {
+                const data = await response.json();
+                setDoctors([...doctors, data]);
+                // Очистка формы после успешной регистрации
+                setFormData({
+                    email: '',
+                    password: '',
+                    name: '',
+                    surname: '',
+                    middlename: '',
+                });
+            } else {
+                throw new Error('Ошибка при добавлении доктора');
+            }
         } catch (error) {
             console.log(error);
+            alert('Ошибка при отправке формы. Перепроверьте и отправьте еще раз!');
         }
     };
+
+
     const handleInputChange = (event) => {
         setFormData({
             ...formData,

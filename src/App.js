@@ -23,6 +23,7 @@ import AboutMe from "./Components/Autorization/Me";
 
 import RegistrationForm from "./Components/Autorization/RegistrationForm";
 import AdminPage from "./Pages/AdminPage";
+import UslugaPage from "./Components/UslugaPage/UslugaPage";
 function App() {
     let role  = "admin"
     const route = useRoutes(true)
@@ -39,7 +40,7 @@ function App() {
 
                     <Router >
                         <Header isA={isAuthenticated }/>
-                        <h1> Пациент я</h1>
+                        <h1> {isAuthenticated ?"auth" :"not auth"}</h1>
                         <Routes>
                             <Route  exact path="/" element={< Home/>}/>
                             <Route exact path="/doctors" element={<Doctors/>}/>
@@ -49,6 +50,7 @@ function App() {
                             {/*<Route exact path="/login" element={<LoginForm />} />*/}
                             <Route exact path="/me" element={<AboutMe tok={token} />} />
                             <Route exact path="/admin" element={<AdminPage />}/>
+                            <Route exact path="/prices/:id" element={<UslugaPage />}/>
                             <Route
                                 path="*"
                                 element={<Navigate to="/" replace />}

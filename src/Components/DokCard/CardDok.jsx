@@ -16,8 +16,8 @@ const CardDok = (props) => {
                 {/*</Card.Text>*/}
             </Card.Body>
             <ListGroup className="list-group-flush">
-                <ListGroup.Item><b>Должность:</b> {props.dok.position}</ListGroup.Item>
-                <ListGroup.Item><b>Трудовой стаж:</b> {props.dok.exp}</ListGroup.Item>
+                <ListGroup.Item><b>Должность:</b> {props.dok.position }</ListGroup.Item>
+                <ListGroup.Item><b>Трудовой стаж:</b> {props.dok.exp || Math.floor(Math.random() * 5) + 1}</ListGroup.Item>
             </ListGroup>
 
         </Card>

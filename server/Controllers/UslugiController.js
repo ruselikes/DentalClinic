@@ -7,6 +7,14 @@ class UslugiController{
                     .then(posts => res.json(posts))
                     .catch(error => res.status(500).send(error));
         };
+        async getPriceById (req, res){
+                const uslugaId = req.params.id;
+
+                const usluga = await Usluga.findById(uslugaId)
+                .then(usluga => res.json(usluga))
+                            .catch(error => res.status(500).json({message: "Услуга не найдена"}))
+        }
+
         async addPrice(req, res) {
                 const usluga = new Usluga({title:req.body.title,text:req.body.text,price:req.body.price});
                 usluga.save()

@@ -35,6 +35,11 @@ const AboutMe = () => {
 
     }, []);
 
+    if (userInfo === null) {
+        return (<h1>Авторизируйтесь</h1>); // Возвращаем null, если userInfo равно null
+    }
+
+
     return (
         <div className="cont">
             <h2>{`${userData.user.surname} ${userData.user.name} ${userData.user.middlename}`}</h2>

@@ -65,11 +65,12 @@ const Prices = () => {
     }, []);
     return (
         <>
-            <Container style={{display:"flex",justifyContent:"center",marginTop:"4%"}}>
-                <div style={{width:"80%", display:"flex",justifyContent:"space-between",flexWrap:"wrap"}}>
+            <Container style={{display:"flex",justifyContent:"center",marginTop:"4%",width:"80%"}}>
+                <div style={{ display:"flex",justifyContent:"space-between",flexWrap:"wrap"}}>
                     {services.map((usluga) =>
                         <CardUsluga body={usluga} key={usluga._id}/>
                     )}
+                    {/*</div>*/}
                 </div>
 
             </Container>
