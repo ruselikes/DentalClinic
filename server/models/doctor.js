@@ -6,7 +6,7 @@ const Doctor = new Schema({
     surname: {type: String,required: true},
     middlename:{type: String,required: false},
     // links: [{type:Types.ObjectId ,ref:"Link"}] //  связь моедли пациента и определенных записей в базе данных + ссылаемся на будущую модель Link
-    roles: {type:String, default:"доктор"},
+    role: {type:String, default:"доктор"},
     position:{type:String, default:"Стоматолог"},
     exp:{type:String, default:"3"},
 })

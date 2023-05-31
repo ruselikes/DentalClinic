@@ -8,63 +8,41 @@ const LoginForm = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const auth = useContext(AuthContext)
+    const [role, setRole] = useState('');
     const navigate = useNavigate();
 
     async function login (){
-        const result = await fetch('http://localhost:5000/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        }).then( res => res.json())
-        console.log("Мой токен!",result)
+        if (role === "Пациент")
         {
-            if (result.token)
+            const result = await fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, password})
+            }).then(res => res.json())
+            console.log("Мой токен!", result)
             {
-                await auth.login(result.token);
-                auth.token = result.token;
-                console.log("Из формы входа токен:",result);
-                console.log("Из формы входа токен из authcontext:",auth.token)
-                console.log("result.token",result.token)
-                await localStorage.setItem("userInfo", JSON.stringify({token:result.token,id:result.id}));
-                navigate('/me');
-            }
-            else {
-                alert("Неверный логин или пароль")
+                if (result.token) {
+                    await auth.login(result.token);
+                    console.log("result.token", result.token)
+                    await localStorage.setItem("userInfo", JSON.stringify({token: result.token, id: result.id,role:result.role}));
+                    navigate('/me');
+                } else {
+                    alert("Неверный логин или пароль")
+                }
             }
         }
-    // console.log(token)
+        else{alert("Перепроверьте данные, роль! ")}
 
     }
+    const handleRoleChange = (e) => {
+        setRole(e.target.value); // Update the selected role state
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
     try{
-    login()
-        //
-        // await fetch('http://localhost:5000/auth/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ email, password })
-        // })
-        //     .then(res => res.json()
-        //     ).then(
-        //         userData =>
-        //         {if (userData.token)
-        //         {
-        //             await auth.login(userData.token);
-        //             auth.token = userData.token;
-        //             console.log("Из формы входа токен:",userData.token);
-        //             console.log("Из формы входа токен из authcontext:",auth.token)
-        //             navigate('/');
-        //         }
-        //         else {
-        //             alert("Неверный логин или пароль")
-        //         }
-        //         })
-
-
-
-            .catch(error => console.log(error));
-    }catch (e){
+        login().catch(error => console.log(error));
+    }
+    catch (e) {
         console.log(e)
     }
 
@@ -95,9 +73,20 @@ const LoginForm = ({ history }) => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Form.Group controlId="role">
+            <Form.Label>Роль:</Form.Label>
+                <Form.Control as="select" value={role} onChange={handleRoleChange}>
+                    <option value="">Выберите роль</option>
+                    <option value="Доктор">Доктор</option>
+                    <option value="Пациент">Пациент</option>
+                    <option value="Администратор">Администартор</option>
+                    <option value="Регистратор">Регистратор</option>
+                </Form.Control>
+            </Form.Group>
+            <Button variant="primary" type="submit" style={{"marginTop": "10px"}} >
                 Войти
             </Button>
+
         </Form>
             </Container>
 

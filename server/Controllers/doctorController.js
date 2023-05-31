@@ -50,13 +50,13 @@ class doctorController{
                 })
             }
             const {email,password} = req.body
-            const pacient = await Pacient.findOne({email:email})
+            const doc = await Doctor.findOne({email:email})
 
-            if (!pacient){
-                console.log('Пользователя нет')
-                return res.status(400).json({message:"Пользователь не найден."})
+            if (!doc){
+                console.log('Врача нет')
+                return res.status(400).json({message:"Врач не найден."})
             }
-            const isMatch = await bcrypt.compare(password,pacient.password)
+            const isMatch = await bcrypt.compare(password,doc.password)
             // const isMatch = password == pacient.password
 
             if (!isMatch){
@@ -64,10 +64,10 @@ class doctorController{
                 alert('Неверный логин или пароль')
                 return  res.status(400).json({message:"Неверный пароль."})
             }
-            const token = generateAccessToken(pacient._id, pacient.roles)
+            const token = generateAccessToken(doc._id, doc.role)
             console.log({token})
             // localStorage.setItem('userData', JSON.stringify(token));
-            return res.status(200).json({token:token,id:pacient._id})
+            return res.status(200).json({token:token,id:doc._id,role:doc.role})
 
 
 

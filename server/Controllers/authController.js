@@ -64,10 +64,10 @@ class authController{
                 alert('Неверный логин или пароль')
                 return  res.status(400).json({message:"Неверный пароль."})
             }
-            const token = generateAccessToken(pacient._id, pacient.roles)
+            const token = generateAccessToken(pacient._id, pacient.role)
             console.log({token})
             // localStorage.setItem('userData', JSON.stringify(token));
-            return res.status(200).json({token:token,id:pacient._id})
+            return res.status(200).json({token:token,id:pacient._id,role:"пациент"})
 
 
 
