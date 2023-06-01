@@ -6,6 +6,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import WaitAppCard from "../AppointmentCards/WaitAppCard";
+import PacProfile from "../Profiles/Pacient";
+import AdminPage from "../../Pages/AdminPage";
 
 const AboutMe = () => {
     const [email, setEmail] = useState('');
@@ -60,70 +62,12 @@ const AboutMe = () => {
 
     if (userInfo.role == "пациент") {
         return (
-            <>
-                <div className="cont">
-                    <h2>{`${userData.user.surname} ${userData.user.name} ${userData.user.middlename}`}</h2>
-                    <p>Email: {userData.user.email}</p>
-                </div>
-                <div className="container" style={{marginTop: "50px"}}>
+            <PacProfile/>
 
-                    <Row>
-                        <Col>
-                            <Tabs>
-                                <Tab eventKey="home" title="Предстоящие посещения">
-
-                                    <div style={{
-                                        width: "100%",
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        flexDirection: 'column'
-                                    }}>
-                                        <div className="overflow-auto h-100" style={{maxHeight: "550px"}}>
-                                            {Array.isArray(appointments) ? appointments.map((priem) => {
-                                                if (priem.status === "Предстоит") {
-                                                    return (
-                                                        <WaitAppCard appointment={priem} key={priem._id}/>
-                                                    )
-                                                }
-                                                return null;
-                                            }) : []}
-                                        </div>
-                                    </div>
-
-                                </Tab>
-                                <Tab eventKey="profile" title="Завершенные приемы">
-
-                                    <div style={{
-                                        width: "100%",
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        flexDirection: 'column'
-                                    }}>
-                                        <div className="overflow-auto h-100" style={{maxHeight: "550px"}}>
-                                            {Array.isArray(appointments) ? appointments.map((priem) => {
-                                                if (priem.status === "Завершен") {
-                                                    return (
-                                                        <WaitAppCard appointment={priem} key={priem._id}/>
-                                                    )
-                                                }
-                                                return null;
-                                            }) : []}
-                                        </div>
-                                    </div>
-                                </Tab>
-                            </Tabs>
-                        </Col>
-
-                        <Col style={{height: '550px'}} xs={7}>
-
-                        </Col>
-
-                    </Row>
-                </div>
-            </>
         );
     }
     else if (userInfo.role == "доктор"){return (<h1>Доктор чтоли?</h1>)}
+    else if (userInfo.role == "админ"){return (<AdminPage/>)}
 };
 
 

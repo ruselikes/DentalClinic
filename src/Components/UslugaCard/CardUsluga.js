@@ -10,7 +10,7 @@ import "./CardUsluga.css";
 //  сама карточка услуги, принимает параметры и рисует карточку
 const CardUsluga = (props) => {
 
-
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const handleDelete = (event) => {
         event.stopPropagation();
         // fetch('/api/delete-usluga', {
@@ -31,13 +31,30 @@ const CardUsluga = (props) => {
         console.log("Типа удлаение!")
     };
 
-
-    return (
-
-        // <Link to=`/${props.body._id}` className="card-link">
+    if (userInfo.role == "пациент") {
+        return (
             <Card className="CardUsluga">
                 <Card.Body>
-                    <Card.Title style={{ textAlign: "center" }}><Link to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
+                    <Card.Title style={{textAlign: "center"}}><Link
+                        to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                        <b>Стоимость:</b> {props.body.price} руб.
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <b>Описание:</b> {props.body.text}
+                    </ListGroup.Item>
+                </ListGroup>
+            </Card>
+        );
+    }
+    else if (userInfo.role == "админ"){
+        return (
+            <Card className="CardUsluga">
+                <Card.Body>
+                    <Card.Title style={{textAlign: "center"}}><Link
+                        to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
                 </Card.Body>
                 <ListGroup className="list-group-flush">
                     <ListGroup.Item>
@@ -51,13 +68,8 @@ const CardUsluga = (props) => {
                     </Button>
                 </ListGroup>
             </Card>
-        // </Link>
-
-
-
-
-
-    );
+        );
+    }
 };
 
 export default CardUsluga;

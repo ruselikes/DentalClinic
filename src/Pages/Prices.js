@@ -26,7 +26,7 @@ const Prices = () => {
     const [price, setPrice] = useState('');
     const [buttonText, setButtonText] = useState('+'); // State variable for the button text
     const handleTitleChange = event => setTitle(event.target.value);
-
+    const userInfo = JSON.stringify(localStorage.getItem("userInfo"))
     // обработчик изменения поля текста
     const handleTextChange = event => setText(event.target.value);
     const handlePriceChange = event => setPrice(event.target.value);
