@@ -15,6 +15,7 @@ const {check} = require("express-validator");
 const authController = require("./Controllers/authController");
 const adminRouter = require("./Router/adminRouter")
 const appointmentRouter = require("./Router/appointmentRouter")
+const stuffRouter = require("./Router/stuffRouter")
 const doctorRouter = require("./Router/doctorRouter")
 
 app.use(cors({origin: 'http://localhost:3000'}));
@@ -25,6 +26,7 @@ app.use("/auth", authRouter)
 app.use("/admin", adminRouter)
 app.use("/priem", appointmentRouter)
 app.use("/doctor", doctorRouter)
+app.use("/staff", stuffRouter)
 
 // app.post('/auth/registration',[
 //     check('username', "Имя пользователя не может быть пустым").notEmpty(),

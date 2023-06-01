@@ -9,7 +9,7 @@ router.post('/registration',[
     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
 ], authController.registration)
 router.post('/login',authController.login)
-router.get('/users',roleMW(["admin"]),authController.getUsers)
+router.get('/users',authController.getUsers)
 // router.get('/me',authController.getMe)
 router.get('/me',authMW(),authController.getMe)
 

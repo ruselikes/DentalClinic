@@ -69,9 +69,29 @@ const LoginForm = ({ history }) => {
             }
 
         }
+        else if (role === "Регистратор"){
+            const result = await fetch('http://localhost:5000/staff/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, password})
+            }).then(res => res.json())
+            console.log("Мой токен!", result)
+            {
+                if (result.token) {
+                    await auth.login(result.token);
+                    console.log("result.token", result.token)
+                    await localStorage.setItem("userInfo", JSON.stringify({token: result.token, id: result.id,role:result.role}));
+                    navigate('/me');
+                } else {
+                    alert("Неверный логин или пароль")
+                }
+            }
+
+        }
         else{alert("Перепроверьте данные, роль! ")}
 
     }
+
     const handleRoleChange = (e) => {
         setRole(e.target.value); // Update the selected role state
     };

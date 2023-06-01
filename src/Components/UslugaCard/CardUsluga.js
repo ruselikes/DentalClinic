@@ -30,26 +30,7 @@ const CardUsluga = (props) => {
 
         console.log("Типа удлаение!")
     };
-
-    if (userInfo.role == "пациент") {
-        return (
-            <Card className="CardUsluga">
-                <Card.Body>
-                    <Card.Title style={{textAlign: "center"}}><Link
-                        to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
-                </Card.Body>
-                <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                        <b>Стоимость:</b> {props.body.price} руб.
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <b>Описание:</b> {props.body.text}
-                    </ListGroup.Item>
-                </ListGroup>
-            </Card>
-        );
-    }
-    else if (userInfo.role == "админ"){
+    if (userInfo.role == "админ"){
         return (
             <Card className="CardUsluga">
                 <Card.Body>
@@ -70,6 +51,24 @@ const CardUsluga = (props) => {
             </Card>
         );
     }
+
+        return (
+            <Card className="CardUsluga">
+                <Card.Body>
+                    <Card.Title style={{textAlign: "center"}}><Link
+                        to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                        <b>Стоимость:</b> {props.body.price} руб.
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <b>Описание:</b> {props.body.text}
+                    </ListGroup.Item>
+                </ListGroup>
+            </Card>
+        );
+
 };
 
 export default CardUsluga;

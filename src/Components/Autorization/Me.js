@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import WaitAppCard from "../AppointmentCards/WaitAppCard";
 import PacProfile from "../Profiles/Pacient";
 import AdminPage from "../../Pages/AdminPage";
+import ManProfile from "../Profiles/Manager";
 
 const AboutMe = () => {
     const [email, setEmail] = useState('');
@@ -68,6 +69,7 @@ const AboutMe = () => {
     }
     else if (userInfo.role == "доктор"){return (<h1>Доктор чтоли?</h1>)}
     else if (userInfo.role == "админ"){return (<AdminPage/>)}
+    else if (userInfo.role == "менеджер") {return (<ManProfile/>)}
 };
 
 

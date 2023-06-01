@@ -17,14 +17,14 @@ const PacProfile = () => {
     const [userData,setUserData] = useState({user: {surname: null,name: null, email: null,middlename: null}})
     const [token, setToken] = useState(auth.token)
 
-    const [appointments,setAppoiintments] = useState([])
+    const [appointments,setAppointments] = useState([])
 
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const getZapisi = async ()=>{
         try {
             const response = await fetch(`http://localhost:5000/priem/getMy/${userInfo.id}`);
             const data = await response.json();
-            setAppoiintments(data)
+            setAppointments(data)
             console.log("zapisi",data);
         } catch (error) {
             console.error("Ошибка при получении списка докторов", error);
