@@ -83,7 +83,11 @@ const ManProfile = () => {
         await setSelectedPacient(event.target.value);
         await getZapisi(selectedPacient)
     };
-    useEffect(()=>{getZapisi()},[])
+    useEffect(() => {
+        if (selectedPacientEdit) {
+            getZapisi(selectedPacientEdit);
+        }
+    }, [selectedPacient, selectedPacientEdit]);
     const handlePacientEditChange = async (event) => {
         await setSelectedEditPacient(event.target.value);
         await getZapisi(selectedPacientEdit)
@@ -309,8 +313,7 @@ const ManProfile = () => {
                                                 return (
                                                     <WaitAppCard
                                                         appointment={priem} key={priem._id}
-                                                        setAppointments={setAppointments}
-                                                        appointments={appointments} />
+                                                        />
                                                 )
                                             }
                                             return null;
