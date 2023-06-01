@@ -14,7 +14,7 @@ const CardSales = () => {
                      alt="Logo"/>
 
             </div>
-            <div>
+            <div style={{marginLeft:'10%'}}>
                 <h3>Профессиональная гигиена полости рта</h3>
                 <p>
                     <del>6500₽</del> ->3500₽

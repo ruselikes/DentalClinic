@@ -1,4 +1,4 @@
-const User = require('../models/pacient')
+const User = require('../models/doctor')
 const Role = require('../models/role')
 const Doctor = require("../models/doctor");
 const bcrypt = require("bcryptjs");
@@ -18,25 +18,25 @@ class doctorController{
     async registration(req,res){
 
         try{
-            const {email, password, name, surname, middlename, roles} = req.body
+            const {email, password, name, surname, middlename} = req.body
 
-            const candidate = await Pacient.findOne({email: email})
+            const candidate = await Doctor.findOne({email: email})
 
             if (candidate) {
-                return res.status(400).json({message:"Пользователь с таким E-mail уже зарегистрирован в системе."})
+                return res.status(400).json({message:"Доктор с таким E-mail уже зарегистрирован в системе."})
             }
             const hashedPassword =await bcrypt.hash(password,2)
-            const new_pacient = new Pacient ({email:email,password: hashedPassword,surname:surname,name:name,middlename:middlename,roles:roles})
-            await new_pacient.save()
+            const new_doctor = new Doctor ({email:email,password: hashedPassword,surname:surname,name:name,middlename:middlename})
+            await new_doctor.save()
             if (req.body.roles.includes("admin")){
-                res.status(201).json({message:"Админ добавлен систему",user:new_pacient})
+                res.status(201).json({message:"Доктор добавлен систему",user:new_doctor})
             }
-            else if (req.body.roles.includes("pacient")){
-                res.status(201).json({message:"Пациент добавлен систему",user:new_pacient})
+            else if (req.body.roles.includes("doctor")){
+                res.status(201).json({message:"Доктор добавлен систему",user:new_doctor})
             }
         }
         catch(e){
-            res.status(500).json({message:"На моем серверe (при регистрации) что то не так. tg: trimberg",error: e.message})
+            res.status(500).json({message:"На моем серверe (при регистрации Доктор) что то не так. tg: trimberg",error: e.message})
         }
     }
     async login(req,res){
@@ -57,7 +57,7 @@ class doctorController{
                 return res.status(400).json({message:"Врач не найден."})
             }
             const isMatch = password == doc.password
-            // const isMatch = password == pacient.password
+            // const isMatch = password == doctor.password
 
             if (!isMatch){
                 console.log('Неверный пароль')

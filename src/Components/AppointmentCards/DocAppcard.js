@@ -3,11 +3,12 @@ import ru from "date-fns/locale/ru";
 import {Container,Button, Col, Form, Row} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { setHours, setMinutes } from 'date-fns';
-export default function WaitAppCard({ appointment, setAppointments, appointments }){
+export default function DocAppCard({appointment}){
 
     let status = '';
     let circleColor = '';
     const [doctor, setDoctor] = useState({})
+    const [pacient, setPacient] = useState({})
     const [usluga, setUsluga] = useState({})
     const [isEditing, setIsEditing] = useState(false);
     const [editedUsluga, setEditedUsluga] = useState(appointment.title);
@@ -57,18 +58,16 @@ export default function WaitAppCard({ appointment, setAppointments, appointments
             const usluga = await response.json();
             setUsluga(usluga);
         } catch (error) {
-            console.error("Ошибка при получении услуги в WAitAppCard", error);
+            console.error("Ошибка при получении услуги в DocAppCard", error);
         }
     };
-    const fetchDoctor = async () => {
+    const fetchPacient = async () => {
         try {
-
-            console.log(appointment.doctorId)
-            const response = await fetch(`http://localhost:5000/doctor/aboutdoc/${appointment.doctorId}`);
-            const doc = await response.json();
-            setDoctor(doc);
+            const response = await fetch(`http://localhost:5000/auth/me/${appointment.patientId}`);
+            const pac = await response.json();
+            setPacient(pac);
         } catch (error) {
-            console.error("Ошибка при получении списка докторов", error);
+            console.error("Ошибка при получении списка pacients", error);
         }
     };
 
@@ -90,7 +89,7 @@ export default function WaitAppCard({ appointment, setAppointments, appointments
                     appointmentTime: selectedDate
                 }),
             })
-        .then((response) => response.json())
+                .then((response) => response.json())
                 .then((data) => {
                     // setAppointments(...appointments,data)
                     console.log("Данные успешно обновлены:", data);
@@ -110,92 +109,88 @@ export default function WaitAppCard({ appointment, setAppointments, appointments
         setIsEditing(false);
     };
     useEffect(() => {
-        fetchDoctor()
+        console.log("поймал пациента",appointment
+        )
+        fetchPacient()
         fetchUsluga()
 
     }, []);
 
-    if (userInfo.role==="менеджер") {
-    return (
-        <div
-            style={{
-                width: "90%",
-                marginBottom: "20px",
-                marginLeft: "10px",
-                boxShadow: "0px 5px 20px 0px #00000040",
-                padding: "20px",
-                borderColor: "#343434",
-                borderRadius: "10px",
-                display:"flex",
-                flexDirection: "column"
-            }}
-        >
-            {isEditing ? (
-                <div>
-                    <h6>Услуга: {usluga.title}</h6>
-                    <h6>
-                        Лечащий врач: {doctor.name}{" "}
-                        {doctor.surname} {doctor.middlename}
-                    </h6>
-                    <p>{editedDate}</p>
-                    <p>Новая дата приема:</p>
-
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => handleDateChange(date)}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={60}
-                        timeCaption="Время"
-                        minDate={currentDateTime}
-                        minTime={setHours(setMinutes(currentDateTime, 59), 7)}
-                        maxTime={setHours(setMinutes(currentDateTime, 59), 16)}
-                        dateFormat="d MMMM, yyyy HH:mm"
-                        locale={ru}
-                    />
-                </div>
-            ) : (
-                <div>
-                    <h6>Услуга: {usluga.title}</h6>
-                    <h6>
-                        Лечащий врач: {doctor.name}{" "}
-                        {doctor.surname} {doctor.middlename}
-                    </h6>
-                    <p>{ConvertData(appointment.appointmentDate)}</p>
-                </div>
-            )}
-
-            <div style={{ display: "flex"}}>
-
+    if (userInfo.role==="доктор") {
+        return (
+            <div
+                style={{
+                    width: "90%",
+                    marginBottom: "20px",
+                    marginLeft: "10px",
+                    boxShadow: "0px 5px 20px 0px #00000040",
+                    padding: "20px",
+                    borderColor: "#343434",
+                    borderRadius: "10px",
+                    display:"flex",
+                    flexDirection: "column"
+                }}
+            >
                 {isEditing ? (
-                    <Button onClick={handleSave}>Завершить редактирование</Button>
+                    <div>
+                        <h6>Услуга: {usluga.title}</h6>
+                        <h6>
+                            Пациент: {pacient.name}{" "}
+                            {pacient.surname} {pacient.middlename}
+                        </h6>
+                        <p>{editedDate}</p>
+                        <p>Новая дата приема:</p>
+
+                        <DatePicker
+                            selected={selectedDate}
+                            onChange={(date) => handleDateChange(date)}
+                            showTimeSelect
+                            timeFormat="HH:mm"
+                            timeIntervals={60}
+                            timeCaption="Время"
+                            minDate={currentDateTime}
+                            minTime={setHours(setMinutes(currentDateTime, 59), 7)}
+                            maxTime={setHours(setMinutes(currentDateTime, 59), 16)}
+                            dateFormat="d MMMM, yyyy HH:mm"
+                            locale={ru}
+                        />
+                    </div>
                 ) : (
                     <div>
-                        {/*<div*/}
-                        {/*    style={{*/}
-                        {/*        width: "12px",*/}
-                        {/*        height: "12px",*/}
-                        {/*        borderRadius: "50%",*/}
-                        {/*        backgroundColor: appointment.status === "Предстоит" ? "orange" : "green",*/}
-                        {/*        marginRight: "5px",*/}
-                        {/*    }}*/}
-                        {/*></div>*/}
-                        <h6 style={{ marginBottom: "4px" }}>
-                            {appointment.status === "Предстоит" ? "Предстощий прием" : "Завершен"}
+                        <h6>Услуга: {usluga.title}</h6>
+                        <h6>
+                            Пациент: {pacient.name}{" "}
+                            {pacient.surname} {pacient.middlename}
                         </h6>
-                        <Button onClick={handleEdit}>Редактировать</Button>
-                        <Button variant="danger" onClick={handleEdit}>Удалить</Button>
+                        <p>{ConvertData(appointment.appointmentDate)}</p>
                     </div>
                 )}
+
+                <div style={{ display: "flex"}}>
+
+                    {isEditing ? (
+                        <Button onClick={handleSave}>Завершить редактирование</Button>
+                    ) : (
+                        <div>
+                            <h6 style={{ marginBottom: "4px" }}>
+                                {appointment.status === "Предстоит" ? "Предстощий прием" : "Завершен"}
+
+                            </h6>
+                            {appointment.description &&
+                                <><h6>Описание</h6>
+                                <p>{appointment.description}</p></>}
+
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
-    )}
+        )}
     else{
         return (
 
             <div style={{width:"90%",marginBottom:"20px", marginLeft:"10px", boxShadow: "0px 5px 20px 0px #00000040",padding: "20px", borderColor:"#343434",borderRadius:"10px"}}>
                 <h6>Услуга: {usluga.title}</h6>
-                <h6>Лечащий врач:{doctor.name} {doctor.surname} {doctor.middlename}</h6>
+                <h6>Пациент:{pacient.name} {pacient.surname} {pacient.middlename}</h6>
                 <p>{ConvertData(appointment.appointmentDate)}</p>
 
 
@@ -212,6 +207,6 @@ export default function WaitAppCard({ appointment, setAppointments, appointments
                     <h6 style={{marginBottom: "4px"}}>{status}</h6>
                 </div>
             </div>
-            ) }
+        ) }
 
-    }
+}

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import StartWindow from "../Components/StartWindow";
 import {Container} from "react-bootstrap";
 import CardSales from "../Components/CardSales";
+import Footer from "../Components/Footer";
 
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
             <Container  style={{display:"flex",justifyContent:"center"}}>
                 <CardSales/>
             </Container>
+            <Footer/>
 
         </div>
     );

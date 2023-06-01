@@ -87,8 +87,8 @@ class authController{
                 console.log('Пользователя нет')
                 return res.status(400).json({message:"Пользователь не найден."})
             }
-            // const isMatch = await bcrypt.compare(password,pacient.password)
-            const isMatch = password === pacient.password
+            const isMatch = await bcrypt.compare(password,pacient.password)
+            // const isMatch = password === pacient.password
 
             if (!isMatch){
                 console.log('Неверный пароль')
@@ -128,6 +128,18 @@ class authController{
 
         }
     }
+    async getPacient(req,res){
+        try{
+            const pac = await Pacient.findById(req.params.id)
+            console.log(pac)
+            return res.json(pac)
+        }
+        catch (e){
+            return res.status(400).json({message: "Что то не так при getMe пациента",error:e.message})
+
+        }
+    }
+
 
 }
 module.exports = new authController()

@@ -13,9 +13,7 @@ const Footer = () => {
             bottom:0,
             right:0}}>*/ /*чтобы всегда было снизу*/}
             <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-                <div className='me-5 d-none d-lg-block'>
-                    <span>Get connected with us on social networks:</span>
-                </div>
+
 
                 <div>
                     <a href='' className='me-4 text-reset'>
@@ -45,7 +43,7 @@ const Footer = () => {
                         <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4'>
                                 <MDBIcon icon="gem" className="me-3" />
-                                Company name
+                                ООО Стоматологическая клиника “НеоДенталь”
                             </h6>
                             <p>
                                 Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
@@ -57,22 +55,22 @@ const Footer = () => {
                             <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
                             <p>
                                 <a href='#!' className='text-reset'>
-                                    Angular
+                                    VK
                                 </a>
                             </p>
                             <p>
                                 <a href='#!' className='text-reset'>
-                                    React
+                                    Telegram
                                 </a>
                             </p>
                             <p>
                                 <a href='#!' className='text-reset'>
-                                    Vue
+                                    OK
                                 </a>
                             </p>
                             <p>
                                 <a href='#!' className='text-reset'>
-                                    Laravel
+                                    Instagram
                                 </a>
                             </p>
                         </MDBCol>
@@ -80,7 +78,7 @@ const Footer = () => {
                         <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                             <p>
-                                <a href='#!' className='text-reset'>
+                                <a href='/prices' className='text-reset'>
                                     Pricing
                                 </a>
                             </p>

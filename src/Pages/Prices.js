@@ -75,26 +75,26 @@ const Prices = () => {
 
             </Container>
 
-            <button id="open-form-btn" className="open-form-btn" onClick={toggleServiceForm}>{buttonText}</button>
-            {serviceFormContainer && (
-            <div id="service-form-container">
+            {/*<button id="open-form-btn" className="open-form-btn" onClick={toggleServiceForm}>{buttonText}</button>*/}
+            {/*{serviceFormContainer && (*/}
+            {/*<div id="service-form-container">*/}
 
-                <form id="service-form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="title">Заголовок:</label>
-                        <input type="text" className="form-control" id="title" value={title} onChange={handleTitleChange} placeholder="Введите заголовок"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="text">Текст:</label>
-                        <textarea className="form-control" id="text" rows="3"  value={text} onChange={handleTextChange} placeholder="Введите текст"></textarea>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="price">Стоимость:</label>
-                        <input type="text" className="form-control" value={price} onChange={handlePriceChange} id="price" placeholder="Введите стоимость"/>
-                    </div>
-                    <button type="submit" className="btn btn-primary">Добавить</button>
-                </form>
-            </div>)}
+            {/*    <form id="service-form" onSubmit={handleSubmit}>*/}
+            {/*        <div className="form-group">*/}
+            {/*            <label htmlFor="title">Заголовок:</label>*/}
+            {/*            <input type="text" className="form-control" id="title" value={title} onChange={handleTitleChange} placeholder="Введите заголовок"/>*/}
+            {/*        </div>*/}
+            {/*        <div className="form-group">*/}
+            {/*            <label htmlFor="text">Текст:</label>*/}
+            {/*            <textarea className="form-control" id="text" rows="3"  value={text} onChange={handleTextChange} placeholder="Введите текст"></textarea>*/}
+            {/*        </div>*/}
+            {/*        <div className="form-group">*/}
+            {/*            <label htmlFor="price">Стоимость:</label>*/}
+            {/*            <input type="text" className="form-control" value={price} onChange={handlePriceChange} id="price" placeholder="Введите стоимость"/>*/}
+            {/*        </div>*/}
+            {/*        <button type="submit" className="btn btn-primary">Добавить</button>*/}
+            {/*    </form>*/}
+            {/*</div>)}*/}
         </>
     );
 

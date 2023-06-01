@@ -29,7 +29,12 @@ const appointmentSchema = new Schema({
         type: Types.ObjectId,
         ref: 'Usluga',
         required: true
-    }
+    },
+    description:
+        {
+            type: String,
+            required: false
+        }
 
 });
 

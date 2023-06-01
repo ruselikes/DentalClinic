@@ -1,48 +1,36 @@
 import React, {useContext, useEffect, useState} from "react";
-import {AuthContext} from "../../AuthContext";
-import {useParams} from "react-router-dom";
+import {AuthContext} from "../AuthContext";
+import {useNavigate, useParams} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ru from 'date-fns/locale/ru';
-import {format, getHours, getMinutes, setHours, setMinutes, toDate} from 'date-fns';
+import { format, getHours, getMinutes,toDate  } from 'date-fns';
 
 
 
-const currentDateTime = new Date()
-const UslugaPage = () => {
+
+const AppointmentPage = () => {
     const [email, setEmail] = useState('');
     const auth = useContext(AuthContext)
-    const [doctors, setDoctors] = useState([]);
+    const [doctor, setDoctor] = useState('');
+    const [appointment,setAppointment] = useState('');
     const [password, setPassword] = useState('');
+    const [pacient, setPacient] = useState('');
     const [uslugaData,setUslugaData] = useState("")
     const [userData,setUserData] = useState({user: {surname: null,name: null, email: null,middlename: null}})
     const [token, setToken] = useState(auth.token)
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedDoctor, setSelectedDoctor] = useState("");
-    const [appointments,setAppointments] = useState([])
-    // const [min,setMin] = useState("")
-    // const [hours,setHours] = useState("")
+    const [description, setDescription] = useState('');
+    const [min,setMin] = useState("")
+    const [hours,setHours] = useState("")
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const { id } = useParams();
+    const navigate = useNavigate()
     console.log("Datatatatatat",selectedDate)
-
-    const getZapisi = async ()=>{
-        try {
-            const response = await fetch(`http://localhost:5000/priem/getDocApps/${selectedDoctor}`);
-            const data = await response.json();
-            await setAppointments(data)
-            console.log("zapisi",data);
-
-        } catch (error) {
-            console.error("Ошибка при получении списка докторов", error);
-        }
-    }
     useEffect(() => {
-        console.log("app zapisi", appointments); // Выполнить операции после обновления appointments
-        // Выполните действия, которые зависят от сохраненных данных
-        // Например, вызов функции или другая обработка данных
-
-    }, [appointments]);
+        console.log("Взять!", appointment);
+    }, [appointment]);
     function ConvertData(timeDelivered) {
         const date = new Date(timeDelivered);
         const hours = String(date.getHours()).padStart(2, '0'); // Get hours with leading zero if necessary
@@ -56,12 +44,37 @@ const UslugaPage = () => {
         console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss",formattedDate); // Example output: 11:55,21.05.23
         return formattedDate;
     }
+
+
+    const fetchAppointment = async () => {
+        try {
+
+            const response = await fetch(`http://localhost:5000/priem/get/${id}`);
+            const priem = await response.json();
+            console.log("Взять прием!",priem)
+            await setAppointment(priem);
+            console.log("Взять!",appointment)
+        } catch (error) {
+            console.error("Ошибка при получении priem в Appoinment page", error);
+        }
+    };
+
+    const fetchPacient = async () => {
+        try {
+
+            const response = await fetch(`http://localhost:5000/auth/me/${appointment.patientId}`);
+            const pac = await response.json();
+            await setPacient(pac);
+        } catch (error) {
+            console.error("Ошибка при получении списка pacients", error);
+        }
+    };
     const handleDateChange = async (date) => {
         const formattedDate = format(date, 'dd-MM-yyyy');
         const hours = getHours(date);
         const minutes = getMinutes(date);
         await setHours(hours)
-        // await setMin((minutes))
+        await setMin((minutes))
         setSelectedDate(formattedDate)
 
 
@@ -71,26 +84,62 @@ const UslugaPage = () => {
         console.log('Выбранная дата:', formattedDate);
         console.log('Выбранное время:', hours + ':' + minutes);
     };
+    useEffect(() => {
+        fetchAppointment()
 
 
-    console.log("Огромная пачка данных","юзер инфом",userInfo,
-        "айди услуги",id,
-        "доктора",doctors,
-        "выбранный",selectedDoctor,
-        )
+    }, []);
+    useEffect(()=>{
+        getUslugaInfo()
+        fetchPacient()
+        fetchDoctor()},[appointment])
 
 
-    const fetchDoctors = async () => {
+
+
+    const fetchDoctor = async () => {
         try {
-            const response = await fetch("http://localhost:5000/admin/doctor/getAll");
+            const response = await fetch(`http://localhost:5000/doctor/aboutdoc/${appointment.doctorId}`);
             const data = await response.json();
-            setDoctors(data);
+            setDoctor(data);
         } catch (error) {
             console.error("Ошибка при получении списка докторов", error);
         }
     };
+    const handleSave = async () => {
+
+        try {
+            const response = await fetch(`http://localhost:5000/priem/editDescription/${appointment._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+
+                    description: description, // Присваиваем выбранную дату
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    // setAppointments(...appointments,data)
+                    console.log("Данные успешно обновлены:", data);
+                    alert("Все отправилось!")
+                    navigate("/me")
+                })
+                .catch((error) => {
+                    alert("Неотправилось!")
+                    console.error("Ошибка при обновлении данных:", error);
+                });
+
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    };
+
     async function getUslugaInfo (){
-        const usluga = await fetch(`http://localhost:5000/prices/${id}`,
+        const usluga = await fetch(`http://localhost:5000/prices/${appointment.serviceId}`,
             {
                 method: 'GET',
 
@@ -111,18 +160,6 @@ const UslugaPage = () => {
         // const appointmentDate = new Date(selectedDate);
         // const appointmentTime = new Date(selectedDate);
         try {
-            const Data = new Date(selectedDate)
-            appointments.forEach((priem) => {
-                const curDate = new Date(priem.appointmentDate)
-                if (Data.getDate() === curDate.getDate() &&
-                    Data.getHours() === curDate.getHours() &&
-                    Data.getMinutes()=== curDate.getMinutes()
-                ) {
-                    alert("Эта дата и время заняты!");
-                    throw new Error('День занят!');
-
-                }
-            });
             const response = await fetch('http://localhost:5000/priem/addNew', {
                 method: 'POST',
                 headers: {
@@ -140,11 +177,9 @@ const UslugaPage = () => {
             if (response.ok) {
                 const zapis = await response.json();
                 console.log(zapis)
-
                 alert("Успешная запись!")
                 setSelectedDoctor("");
                 setSelectedDate(null);
-                setAppointments(...appointments,zapis)
                 // Очистка формы после успешной регистрации
 
             } else {
@@ -155,16 +190,10 @@ const UslugaPage = () => {
             alert('Ошибка при записи. Перепроверьте и отправьте еще раз!');
         }
     };
-    useEffect(() => {
-        getUslugaInfo()
-        fetchDoctors()
 
-
-    }, []);
-    useEffect(() => {
-        getZapisi()
-
-    }, [selectedDoctor]);
+    const handleInputChange = (event) => {
+        setDescription(event.target.value);
+    };
 
     if (userInfo === null) {
         return (<h1>Авторизируйтесь</h1>); // Возвращаем null, если userInfo равно null
@@ -175,36 +204,17 @@ const UslugaPage = () => {
 
     return (
         <div className="cont">
-            <h2>{`${uslugaData.title}  ${uslugaData.price} рублей`}</h2>
-            <p>Email: {userData.user.email}</p>
+            <h2>{`${uslugaData.title} Стоимость услуги: ${uslugaData.price} рублей`}</h2>
 
-            <select value={selectedDoctor} onChange={handleDoctorChange}>
-                <option value="">Выберите доктора</option>
-                {doctors.map((doctor) => (
-                    <option key={doctor._id} value={doctor._id}>
-                        {doctor.name+" "+doctor.surname+" "+ doctor.middlename}
-                    </option>
-                ))}
-            </select>
-            {/*<p>Выбранный доктор: {selectedDoctor}</p>*/}
-            <DatePicker
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={60}
-                timeCaption="Время"
-                minDate={currentDateTime}
-                minTime={setHours (setMinutes(currentDateTime, 59), 7)}
-                maxTime={setHours (setMinutes(currentDateTime, 59), 16)}
-                dateFormat="d MMMM, yyyy HH:mm"
-                locale={ru}
+            <p>Лечащий врач: {doctor.name} {doctor.surname} {doctor.middlename}</p>
+            <p>Пациент: {pacient.name} {pacient.surname} {pacient.middlename}</p>
 
-            />
-            <button onClick={createAppoinment}>Записаться</button>
+            <input type="text" value={description} onChange={handleInputChange} />
+
+            <button onClick={handleSave}>Завершить прием</button>
             {console.log(typeof(selectedDate))}
         </div>
     );
 };
 
-export default UslugaPage;
+export default AppointmentPage;

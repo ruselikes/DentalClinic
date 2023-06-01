@@ -30,12 +30,12 @@ const CardUsluga = (props) => {
 
         console.log("Типа удлаение!")
     };
-    if (userInfo.role == "админ"){
+if (userInfo === null || userInfo.role != "пациент"){
         return (
             <Card className="CardUsluga">
                 <Card.Body>
-                    <Card.Title style={{textAlign: "center"}}><Link
-                        to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
+                    <Card.Title style={{textAlign: "center"}}>
+{props.body.title}</Card.Title>
                 </Card.Body>
                 <ListGroup className="list-group-flush">
                     <ListGroup.Item>
@@ -44,30 +44,50 @@ const CardUsluga = (props) => {
                     <ListGroup.Item>
                         <b>Описание:</b> {props.body.text}
                     </ListGroup.Item>
-                    <Button variant="danger" className="delete-button" onClick={handleDelete}>
-                        Удалить услугу
-                    </Button>
                 </ListGroup>
             </Card>
         );
     }
+else if (userInfo.role === "пациент"){
+            return (
+                <Card className="CardUsluga">
+            <Card.Body>
+                <Card.Title style={{textAlign: "center"}}><Link
+                    to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+                <ListGroup.Item>
+                    <b>Стоимость:</b> {props.body.price} руб.
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <b>Описание:</b> {props.body.text}
+                </ListGroup.Item>
+            </ListGroup>
+        </Card>)}
+// else  if (userInfo.role == "админ"){
+//         return (
+//             <Card className="CardUsluga">
+//                 <Card.Body>
+//                     <Card.Title style={{textAlign: "center"}}><Link
+//                         to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
+//                 </Card.Body>
+//                 <ListGroup className="list-group-flush">
+//                     <ListGroup.Item>
+//                         <b>Стоимость:</b> {props.body.price} руб.
+//                     </ListGroup.Item>
+//                     <ListGroup.Item>
+//                         <b>Описание:</b> {props.body.text}
+//                     </ListGroup.Item>
+//                     <Button variant="danger" className="delete-button" onClick={handleDelete}>
+//                         Удалить услугу
+//                     </Button>
+//                 </ListGroup>
+//             </Card>
+//         );
 
-        return (
-            <Card className="CardUsluga">
-                <Card.Body>
-                    <Card.Title style={{textAlign: "center"}}><Link
-                        to={`/prices/${props.body._id}`}>{props.body.title}</Link></Card.Title>
-                </Card.Body>
-                <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                        <b>Стоимость:</b> {props.body.price} руб.
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <b>Описание:</b> {props.body.text}
-                    </ListGroup.Item>
-                </ListGroup>
-            </Card>
-        );
+
+
+
 
 };
 

@@ -9,6 +9,7 @@ import WaitAppCard from "../AppointmentCards/WaitAppCard";
 import PacProfile from "../Profiles/Pacient";
 import AdminPage from "../../Pages/AdminPage";
 import ManProfile from "../Profiles/Manager";
+import DocProfile from "../Profiles/Doctor";
 
 const AboutMe = () => {
     const [email, setEmail] = useState('');
@@ -61,15 +62,11 @@ const AboutMe = () => {
         return (<h1>Авторизируйтесь</h1>); // Возвращаем null, если userInfo равно null
     }
 
-    if (userInfo.role == "пациент") {
-        return (
-            <PacProfile/>
-
-        );
-    }
-    else if (userInfo.role == "доктор"){return (<h1>Доктор чтоли?</h1>)}
+    if (userInfo.role == "пациент") {return (<PacProfile/>);}
+    else if (userInfo.role == "доктор"){return (<DocProfile/>)}
     else if (userInfo.role == "админ"){return (<AdminPage/>)}
     else if (userInfo.role == "менеджер") {return (<ManProfile/>)}
+
 };
 
 

@@ -11,6 +11,7 @@ import ru from "date-fns/locale/ru";
 import RegistrationForm from "../Autorization/RegistrationForm";
 import RegPacientPage from "../RegPacientPage";
 import {setHours, setMinutes} from "date-fns";
+import {Button} from "react-bootstrap";
 
 
 
@@ -28,11 +29,13 @@ const ManProfile = () => {
     const [selectedDoctor, setSelectedDoctor] = useState("");
     const [selectedService, setSelectedService] = useState("");
     const [selectedPacient, setSelectedPacient] = useState("");
+    const [selectedPacientEdit, setSelectedEditPacient] = useState("");
     const [appointments,setAppointments] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
     const dropdownStyle = {
         margin: '10px 0',
         width: "400px",
+        height:"50px",
         // boxShadow: "0px 5px 20px 0px #00000040",
         borderRadius: "5px",
         fontFamily: 'Montserrat, sans-serif'
@@ -49,14 +52,15 @@ const ManProfile = () => {
             console.error("Ошибка при получении списка пациентов", error);
         }
     }
+
     const getZapisi = async (pacientId)=>{
         try {
             const response = await fetch(`http://localhost:5000/priem/getMy/${pacientId}`);
             const data = await response.json();
-            setAppointments(data)
+            await setAppointments(data)
             console.log("zapisi",data);
         } catch (error) {
-            console.error("Ошибка при получении списка докторов", error);
+            console.error("Ошибка при получении списка записей", error);
         }
     }
     const getServices = async ()=>{
@@ -78,6 +82,11 @@ const ManProfile = () => {
     const handlePacientChange = async (event) => {
         await setSelectedPacient(event.target.value);
         await getZapisi(selectedPacient)
+    };
+    useEffect(()=>{getZapisi()},[])
+    const handlePacientEditChange = async (event) => {
+        await setSelectedEditPacient(event.target.value);
+        await getZapisi(selectedPacientEdit)
     };
     const createAppoinment = async (event) =>{
         event.preventDefault();
@@ -218,43 +227,10 @@ const ManProfile = () => {
                                     width: "100%",
                                     display: "flex",
                                     justifyContent: "space-between",
+                                    alignItems:"center",
                                     flexDirection: 'column'
                                 }}>
-                                {/*    <select value={selectedService} onChange={handlePacientChange}>*/}
-                                {/*        <option value="">Выберите Пациента</option>*/}
-                                {/*        {pacients.map((pac) => (*/}
-                                {/*            <option key={pac._id} value={pac._id}>*/}
-                                {/*                {pac.name+" "+pac.surname+" "+ pac.middlename}*/}
-                                {/*            </option>*/}
-                                {/*        ))}*/}
-                                {/*    </select>*/}
-                                {/* <select value={selectedService} onChange={handleServiceChange}>*/}
-                                {/*        <option value="">Выберите услугу</option>*/}
-                                {/*        {services.map((service) => (*/}
-                                {/*            <option key={service._id} value={service._id}>*/}
-                                {/*                {service.title}*/}
-                                {/*            </option>*/}
-                                {/*        ))}*/}
-                                {/* </select>*/}
-                                {/*<select value={selectedDoctor} onChange={handleDoctorChange}>*/}
-                                {/*    <option value="">Выберите доктора</option>*/}
-                                {/*    {doctors.map((doctor) => (*/}
-                                {/*        <option key={doctor._id} value={doctor._id}>*/}
-                                {/*            {doctor.name+" "+doctor.surname+" "+ doctor.middlename}*/}
-                                {/*        </option>*/}
-                                {/*    ))}*/}
-                                {/*</select>*/}
-                                {/*    <DatePicker*/}
-                                {/*        selected={selectedDate}*/}
-                                {/*        onChange={date => setSelectedDate(date)}*/}
-                                {/*        showTimeSelect*/}
-                                {/*        timeFormat="HH:mm"*/}
-                                {/*        timeIntervals={60}*/}
-                                {/*        timeCaption="Время"*/}
-                                {/*        dateFormat="d MMMM, yyyy HH:mm"*/}
-                                {/*        locale={ru}*/}
-                                {/*    />*/}
-                                {/*    <button onClick={createAppoinment}>Записать на прием</button>*/}
+
                                     <div className="overflow-auto h-100" style={{maxHeight: "550px"}}>
                                         {/*{Array.isArray(appointments) ? appointments.map((priem) => {*/}
                                         {/*    if (priem.status === "Завершен") {*/}
@@ -283,7 +259,7 @@ const ManProfile = () => {
                                         ))}
                                     </select>
 
-                                    <select value={selectedDoctor} onChange={handleDoctorChange} style={dropdownStyle}>
+                                    <select  value={selectedDoctor} onChange={handleDoctorChange} style={dropdownStyle}>
                                         <option value="">Выберите доктора</option>
                                         {doctors.map((doctor) => (
                                             <option key={doctor._id} value={doctor._id}>
@@ -291,8 +267,8 @@ const ManProfile = () => {
                                             </option>
                                         ))}
                                     </select>
-
-                                    <DatePicker
+<div>
+                                    <DatePicker style={{width:"50%"}}
                                         selected={selectedDate}
                                         onChange={(date) => setSelectedDate(date)}
                                         showTimeSelect
@@ -305,8 +281,8 @@ const ManProfile = () => {
                                         dateFormat="d MMMM, yyyy HH:mm"
                                         locale={ru}
                                     />
-
-                                    <button onClick={createAppoinment}>Записать на прием</button>
+</div>
+                                    <Button style={{margin: "10px 0", width: "200px"}} variant="success" onClick={createAppoinment}>Записать на прием</Button>
 
                                 </div>
                             </Tab>
@@ -318,7 +294,7 @@ const ManProfile = () => {
                                     justifyContent: "space-between",
                                     flexDirection: 'column'
                                 }}>
-                                    <select value={selectedPacient} onChange={handlePacientChange} style={dropdownStyle}>
+                                    <select value={selectedPacientEdit} onChange={handlePacientEditChange} style={dropdownStyle}>
                                         <option value="">Выберите Пациента</option>
                                         {pacients.map((pac) => (
                                             <option key={pac._id} value={pac._id}>
