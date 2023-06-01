@@ -8,6 +8,8 @@ import {AuthContext} from "../../AuthContext";
 import AboutMe from "../Autorization/Me";
 import DatePicker from "react-datepicker";
 import ru from "date-fns/locale/ru";
+import RegistrationForm from "../Autorization/RegistrationForm";
+import RegPacientPage from "../RegPacientPage";
 
 
 
@@ -185,24 +187,25 @@ const ManProfile = () => {
                                     justifyContent: "space-between",
                                     flexDirection: 'column'
                                 }}>
+                                    <RegPacientPage />
                                     <div className="overflow-auto h-100" style={{maxHeight: "550px"}}>
-                                        {Array.isArray(doctors) ? doctors.map((doc) => {
+                                        {/*{Array.isArray(doctors) ? doctors.map((doc) => {*/}
 
-                                                return ( <h1>{doc.name}</h1>
-                                                    // <WaitAppCard appointment={doc} key={doc._id}/>
-                                                )
-
-
-                                        }) : []}
-                                        <p>sdads</p>
-                                        {Array.isArray(pacients) ? pacients.map((pac) => {
-
-                                            return ( <h1>{pac.name}</h1>
-                                                // <WaitAppCard appointment={doc} key={doc._id}/>
-                                            )
+                                        {/*        return ( <h1>{doc.name}</h1>*/}
+                                        {/*            // <WaitAppCard appointment={doc} key={doc._id}/>*/}
+                                        {/*        )*/}
 
 
-                                        }) : []}
+                                        {/*}) : []}*/}
+                                        {/*<p>sdads</p>*/}
+                                        {/*{Array.isArray(pacients) ? pacients.map((pac) => {*/}
+
+                                        {/*    return ( <h1>{pac.name}</h1>*/}
+                                        {/*        // <WaitAppCard appointment={doc} key={doc._id}/>*/}
+                                        {/*    )*/}
+
+
+                                        {/*}) : []}*/}
 
                                     </div>
                                 </div>

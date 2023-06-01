@@ -10,6 +10,8 @@ router.delete('/doctor/delete',adminController.deleteDoc)
 router.post('/staff/add',adminController.addStuff)
 // router.get('/me',authController.getMe)
 router.get('/doctor/getAll',adminController.getDocs)
+// router.post('/pacient/add',adminController.addPac)
+
 router.get('/staff/getAll',adminController.getStaff)
 router.put('/doctor/edit/:id',adminController.editDoc)
 router.put('/stuff/edit/:id',adminController.editStuff)

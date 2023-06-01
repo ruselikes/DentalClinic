@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const {validationResult} = require("express-validator");
 const config = require("config");
+const Doctor = require("../models/doctor");
 const secret = config.get("secret")
 const generateAccessToken = (id, roles) => {
     const payload = {
@@ -15,6 +16,40 @@ const generateAccessToken = (id, roles) => {
 }
 
 class authController{
+    async edit(req,res) {
+        try {
+            const {id} = req.params;
+            const {email, password, name, surname, middlename} = req.body;
+
+            // Найти доктора по ID
+            const pacient = await Pacient.findById(id);
+            const hashedPassword =await bcrypt.hash(password,2)
+
+            // Обновление данных доктора
+            pacient.email = email;
+            pacient.password = hashedPassword;
+            pacient.name = name;
+            pacient.surname = surname;
+            pacient.middlename = middlename;
+
+            // Сохранение обновленных данных в базе данных
+            const updatedPacient = await pacient.save();
+
+            res.status(200).json(updatedPacient);
+        } catch (error) {
+            res.status(500).json({error: error.message});
+        }
+    }
+    async delete(req,res){
+            try {
+                const { id } = req.params;
+                await Pacient.findByIdAndRemove(id);
+                res.status(200).json({ message: "Пациент успешно удален" });
+            } catch (error) {
+                res.status(500).json({error: error.message});
+            }
+    }
+
     async registration(req,res){
 
         try{
@@ -52,8 +87,8 @@ class authController{
                 console.log('Пользователя нет')
                 return res.status(400).json({message:"Пользователь не найден."})
             }
-            const isMatch = await bcrypt.compare(password,pacient.password)
-            // const isMatch = password == pacient.password
+            // const isMatch = await bcrypt.compare(password,pacient.password)
+            const isMatch = password === pacient.password
 
             if (!isMatch){
                 console.log('Неверный пароль')

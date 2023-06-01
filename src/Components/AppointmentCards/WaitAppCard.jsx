@@ -4,7 +4,16 @@ export default function WaitAppCard({appointment}){
 
     let status = '';
     let circleColor = '';
-
+    const [doctor, setDoctor] = useState({})
+    const [usluga, setUsluga] = useState({})
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedUsluga, setEditedUsluga] = useState(appointment.title);
+    const [editedDoctor, setEditedDoctor] = useState(
+        `${doctor.name} ${doctor.surname} ${doctor.middlename}`
+    );
+    const [editedDate, setEditedDate] = useState(
+        ConvertData(appointment.appointmentDate)
+    );
 
     function ConvertData(timeDelivered) {
         const date = new Date(timeDelivered);
@@ -26,8 +35,7 @@ export default function WaitAppCard({appointment}){
         status = 'Завершен';
         circleColor = 'green';
     }
-    const [doctor, setDoctor] = useState({})
-    const [usluga, setUsluga] = useState({})
+
     const fetchUsluga = async () => {
         try {
 
@@ -51,30 +59,92 @@ export default function WaitAppCard({appointment}){
         }
     };
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
 
+    const handleSave = () => {
+        // Отправить запрос на сервер для сохранения изменений
+        // Вместо console.log добавьте код для отправки запроса на сервер и обработки успешного сохранения
+        console.log("Сохранение изменений:", {
+            usluga: editedUsluga,
+            doctor: editedDoctor,
+            date: editedDate,
+        });
+
+        setIsEditing(false);
+    };
     useEffect(() => {
         fetchDoctor()
         fetchUsluga()
 
     }, []);
     return (
-        <div style={{width:"90%",marginBottom:"20px", marginLeft:"10px", boxShadow: "0px 5px 20px 0px #00000040",padding: "20px", borderColor:"#343434",borderRadius:"10px"}}>
-            <h6>Услуга: {usluga.title}</h6>
-            <h6>Лечащий врач:{doctor.name} {doctor.surname} {doctor.middlename}</h6>
-            <p>{ConvertData(appointment.appointmentDate)}</p>
+        <div
+            style={{
+                width: "90%",
+                marginBottom: "20px",
+                marginLeft: "10px",
+                boxShadow: "0px 5px 20px 0px #00000040",
+                padding: "20px",
+                borderColor: "#343434",
+                borderRadius: "10px",
+            }}
+        >
+            {isEditing ? (
+                <div>
+                    <h6>Услуга:</h6>
+                    <input
+                        type="text"
+                        value={editedUsluga}
+                        onChange={(e) => setEditedUsluga(e.target.value)}
+                    />
 
+                    <h6>Лечащий врач:</h6>
+                    <input
+                        type="text"
+                        value={editedDoctor}
+                        onChange={(e) => setEditedDoctor(e.target.value)}
+                    />
 
-             <div style={{ display: 'flex', alignItems: 'center' }}>
-                 <div
-                     style={{
-                         width: '12px',
-                         height: '12px',
-                        borderRadius: '50%',
-                        backgroundColor: circleColor,
-                        marginRight: '5px',
+                    <p>Дата приема:</p>
+                    <input
+                        type="text"
+                        value={editedDate}
+                        onChange={(e) => setEditedDate(e.target.value)}
+                    />
+                </div>
+            ) : (
+                <div>
+                    <h6>Услуга: {usluga.title}</h6>
+                    <h6>
+                        Лечащий врач: {doctor.name}{" "}
+                        {doctor.surname} {doctor.middlename}
+                    </h6>
+                    <p>{ConvertData(appointment.appointmentDate)}</p>
+                </div>
+            )}
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+                <div
+                    style={{
+                        width: "12px",
+                        height: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: appointment.status === "Предстоит" ? "orange" : "green",
+                        marginRight: "5px",
                     }}
                 ></div>
-                <h6 style={{marginBottom: "4px"}}>{status}</h6>
+                {isEditing ? (
+                    <button onClick={handleSave}>Завершить редактирование</button>
+                ) : (
+                    <div>
+                        <h6 style={{ marginBottom: "4px" }}>
+                            {appointment.status === "Предстоит" ? "Предстоит" : "Завершен"}
+                        </h6>
+                        <button onClick={handleEdit}>Редактировать</button>
+                    </div>
+                )}
             </div>
         </div>
     )

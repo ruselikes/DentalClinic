@@ -10,6 +10,9 @@ router.post('/registration',[
 ], authController.registration)
 router.post('/login',authController.login)
 router.get('/users',authController.getUsers)
+router.delete('/delete/:id',authController.delete)
+
+router.put('/edit/:id',authController.edit)
 // router.get('/me',authController.getMe)
 router.get('/me',authMW(),authController.getMe)
 
