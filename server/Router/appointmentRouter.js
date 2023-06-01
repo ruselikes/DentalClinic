@@ -7,6 +7,7 @@ const router = new Router()
 router.post('/addNew', appointmentConroller.addAppointment)
 // router.post('/login',appointmentConroller.login)
 router.get('/getMy/:id',appointmentConroller.getSmbdAppointments)
+router.put('/edit/:id',appointmentConroller.edit)
 // // router.get('/me',authController.getMe)
 // router.get('/me',authMW(),appointmentConroller.getMe)
 

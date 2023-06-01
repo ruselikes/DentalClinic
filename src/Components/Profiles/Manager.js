@@ -10,10 +10,11 @@ import DatePicker from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import RegistrationForm from "../Autorization/RegistrationForm";
 import RegPacientPage from "../RegPacientPage";
+import {setHours, setMinutes} from "date-fns";
 
 
 
-
+const currentDateTime = new Date()
 const ManProfile = () => {
     const [email, setEmail] = useState('');
     const auth = useContext(AuthContext)
@@ -298,6 +299,9 @@ const ManProfile = () => {
                                         timeFormat="HH:mm"
                                         timeIntervals={60}
                                         timeCaption="Время"
+                                        minDate={currentDateTime}
+                                        minTime={setHours(setMinutes(currentDateTime, 59), 7)}
+                                        maxTime={setHours(setMinutes(currentDateTime, 59), 16)}
                                         dateFormat="d MMMM, yyyy HH:mm"
                                         locale={ru}
                                     />
@@ -327,7 +331,10 @@ const ManProfile = () => {
                                         {Array.isArray(appointments) ? appointments.map((priem) => {
                                             if (priem.status === "Предстоит") {
                                                 return (
-                                                    <WaitAppCard appointment={priem} key={priem._id}/>
+                                                    <WaitAppCard
+                                                        appointment={priem} key={priem._id}
+                                                        setAppointments={setAppointments}
+                                                        appointments={appointments} />
                                                 )
                                             }
                                             return null;

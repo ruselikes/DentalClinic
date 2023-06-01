@@ -23,7 +23,7 @@ useEffect(() => {
     // Получение списка пациентов при загрузке компонента
     fetchPacients();
 
-}, [pacients]);
+}, []);
 
 const fetchPacients = async () => {
     try {

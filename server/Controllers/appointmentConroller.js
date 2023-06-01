@@ -1,6 +1,8 @@
 
 const Usluga = require('../models/Usluga')
 const Appointment= require('../models/appointment')
+const Pacient = require("../models/pacient");
+const bcrypt = require("bcryptjs");
 
 class appointmentController{
     async getAll(req, res) {
@@ -8,6 +10,31 @@ class appointmentController{
             .then(posts => res.json(posts))
             .catch(error => res.status(500).send(error));
     };
+    async edit(req,res) {
+        try {
+            const {id} = req.params;
+
+
+            // Найти доктора по ID
+            const appointment = await Appointment.findById(id);
+
+            if (!appointment) {
+                return res.status(404).json({ error: 'Appointment not found' });
+            }
+            // Обновление данных доктора
+
+            appointment.appointmentDate=req.body.appointmentDate;
+            appointment.appointmentTime=req.body.appointmentTime;
+
+
+            // Сохранение обновленных данных в базе данных
+            const updatedApp = await appointment.save();
+
+            res.status(200).json(updatedApp);
+        } catch (error) {
+            res.status(500).json({error: error.message});
+        }
+    }
     async getSmbdAppointments(req,res){
         const routes = await Appointment.find({patientId:req.params.id})
             .then(async zapisi => res.json(zapisi))
@@ -22,6 +49,9 @@ class appointmentController{
             .then(data => res.json(priem))
             .catch(error => res.status(500).send(error));
     }
+
+
+
     async updatePrice(req, res) {
         const usluga = new Usluga({title:req.body.title,text:req.body.text,price:req.body.price});
         usluga.save()

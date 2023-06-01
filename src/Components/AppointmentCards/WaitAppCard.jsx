@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
-
-export default function WaitAppCard({appointment}){
+import React, {useEffect, useState} from "react";
+import ru from "date-fns/locale/ru";
+import DatePicker from "react-datepicker";
+import { setHours, setMinutes } from 'date-fns';
+export default function WaitAppCard({ appointment, setAppointments, appointments }){
 
     let status = '';
     let circleColor = '';
@@ -14,7 +16,8 @@ export default function WaitAppCard({appointment}){
     const [editedDate, setEditedDate] = useState(
         ConvertData(appointment.appointmentDate)
     );
-
+    const [selectedDate, setSelectedDate] = useState(null);
+    const currentDateTime = new Date()
     function ConvertData(timeDelivered) {
         const date = new Date(timeDelivered);
         const hours = String(date.getHours()).padStart(2, '0'); // Get hours with leading zero if necessary
@@ -35,7 +38,15 @@ export default function WaitAppCard({appointment}){
         status = 'Завершен';
         circleColor = 'green';
     }
-
+    const handleDateChange = (date) => {
+        // Проверяем, выбрано ли дата и время, которые не ниже текущего момента
+        if (date >= currentDateTime) {
+            setSelectedDate(date);
+        } else {
+            // Обрабатываем ошибку, если выбрана некорректная дата и время
+            alert('Выберите дату и время, не ранее текущего момента.');
+        }
+    };
     const fetchUsluga = async () => {
         try {
 
@@ -63,14 +74,36 @@ export default function WaitAppCard({appointment}){
         setIsEditing(true);
     };
 
-    const handleSave = () => {
-        // Отправить запрос на сервер для сохранения изменений
-        // Вместо console.log добавьте код для отправки запроса на сервер и обработки успешного сохранения
-        console.log("Сохранение изменений:", {
-            usluga: editedUsluga,
-            doctor: editedDoctor,
-            date: editedDate,
-        });
+    const handleSave = async () => {
+
+        try {
+            const response = await fetch(`http://localhost:5000/priem/edit/${appointment._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+
+                    appointmentDate: selectedDate, // Присваиваем выбранную дату
+                    appointmentTime: selectedDate
+                }),
+            })
+        .then((response) => response.json())
+                .then((data) => {
+                    setAppointments(...appointments,data)
+                    console.log("Данные успешно обновлены:", data);
+                    alert("Все отправилось!")
+                })
+                .catch((error) => {
+                    alert("Неотправилось!")
+                    console.error("Ошибка при обновлении данных:", error);
+                });
+
+
+        } catch (error) {
+            console.log(error);
+        }
+
 
         setIsEditing(false);
     };
@@ -93,25 +126,26 @@ export default function WaitAppCard({appointment}){
         >
             {isEditing ? (
                 <div>
-                    <h6>Услуга:</h6>
-                    <input
-                        type="text"
-                        value={editedUsluga}
-                        onChange={(e) => setEditedUsluga(e.target.value)}
-                    />
+                    <h6>Услуга: {usluga.title}</h6>
+                    <h6>
+                        Лечащий врач: {doctor.name}{" "}
+                        {doctor.surname} {doctor.middlename}
+                    </h6>
+                    <p>{editedDate}</p>
+                    <p>Новая дата приема:</p>
 
-                    <h6>Лечащий врач:</h6>
-                    <input
-                        type="text"
-                        value={editedDoctor}
-                        onChange={(e) => setEditedDoctor(e.target.value)}
-                    />
-
-                    <p>Дата приема:</p>
-                    <input
-                        type="text"
-                        value={editedDate}
-                        onChange={(e) => setEditedDate(e.target.value)}
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => handleDateChange(date)}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={60}
+                        timeCaption="Время"
+                        minDate={currentDateTime}
+                        minTime={setHours(setMinutes(currentDateTime, 59), 7)}
+                        maxTime={setHours(setMinutes(currentDateTime, 59), 16)}
+                        dateFormat="d MMMM, yyyy HH:mm"
+                        locale={ru}
                     />
                 </div>
             ) : (
