@@ -11,6 +11,7 @@ router.get('/getDocApps/:id',appointmentConroller.getDocAppointments)
 router.put('/edit/:id',appointmentConroller.edit)
 router.get('/get/:id',appointmentConroller.getAppointment)
 router.put('/editDescription/:id',appointmentConroller.addDescription)
+router.delete('/delete/:id',appointmentConroller.delete)
 // // router.get('/me',authController.getMe)
 // router.get('/me',authMW(),appointmentConroller.getMe)
 

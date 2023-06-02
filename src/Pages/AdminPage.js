@@ -171,7 +171,7 @@ const AdminPage = () => {
     const handleEditStaff = (staffId) => {
         // Найти доктора по ID и заполнить форму редактирования
         const stuffToEdit = staff.find((s) => s._id === staffId);
-        setFormData({
+        setFormStaffData({
             email: stuffToEdit.email,
             password: stuffToEdit.password,
             name: stuffToEdit.name,
@@ -344,7 +344,7 @@ const AdminPage = () => {
                     <ul>
                         {doctors.map((doctor) => (
                             <li key={doctor._id}>
-                                <h6>{doctor._id}{typeof(doctor._id)}</h6>
+                               
                                 {doctor.name} {doctor.surname} - {doctor.middlenames}
                                 <Button variant="link" onClick={() => handleEditDoctor(doctor._id)}>
                                     Редактировать
@@ -492,7 +492,7 @@ const AdminPage = () => {
                     <ul>
                         {staff.map((registrator) => (
                             <li key={registrator._id}>
-                                <h6>{registrator._id}{typeof(registrator._id)}</h6>
+
                                 {registrator.name} {registrator.surname} - {registrator.middlenames}
                                 <Button variant="link" onClick={() => handleEditStaff(registrator._id)}>
                                     Редактировать

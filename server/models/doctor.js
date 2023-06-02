@@ -9,6 +9,7 @@ const Doctor = new Schema({
     role: {type:String, default:"доктор"},
     position:{type:String, default:"Стоматолог"},
     exp:{type:String, default:"3"},
+    image:{type:String}
 })
 
 

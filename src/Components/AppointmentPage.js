@@ -209,7 +209,7 @@ const AppointmentPage = () => {
             <p>Лечащий врач: {doctor.name} {doctor.surname} {doctor.middlename}</p>
             <p>Пациент: {pacient.name} {pacient.surname} {pacient.middlename}</p>
 
-            <input type="text" value={description} onChange={handleInputChange} />
+            <input style={{minHeight:"500px",minWidth:"700px",marginRight:"15px"}} type="text" value={description} onChange={handleInputChange} />
 
             <button onClick={handleSave}>Завершить прием</button>
             {console.log(typeof(selectedDate))}

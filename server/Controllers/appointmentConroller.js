@@ -91,38 +91,22 @@ class appointmentController{
             .then(post => res.json(post))
             .catch(error => res.status(500).send(error));
     }
-    async deletePrice(req, res) {
+    async delete(req, res) {
         try{
-            const priceId = req.params.id;
-            console.log(priceId)
+            const { id } = req.params;
 
-            await Usluga.findOneAndDelete(
-                {
-                    _id:priceId
-                }
-
-
-            ).then(
-                (usluga)=> {
-                    // if () {
-                    //         console.log(err);
-                    //         return res.status(500).json({
-                    //                 message: "Возникла ошибка при удалении услуги" + err
-                    //         })
-                    // }
-                    if (!usluga) {
-                        return res.status(404).json({
-                            message: "Статья не найдена"
-                        })
-                    }
-                    res.json({success:"Успешное удаление услуги!"})
-                }).catch((err)=>{
+            const app = await Appointment.findByIdAndRemove(id)
+            if (!app) {
                 return res.status(404).json({
-                    message:"Услуга не найдена. Перепроверьте данные"})})
+                    message: "Запись не найдена"
+                })
+            }
+            res.status(200).json({ message: 'Запись успешно отменена' })
+
         }
         catch(err){
             res.status(500).json({
-                message:"Возникла ошибка при удалении услуги"+err})
+                message:"Возникла ошибка при удалении записи"+err})
         }
     }
 }

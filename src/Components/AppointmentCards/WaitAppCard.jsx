@@ -75,6 +75,22 @@ export default function WaitAppCard({ appointment, setAppointments, appointments
     const handleEdit = () => {
         setIsEditing(true);
     };
+    const handleDelete = async () => {
+
+
+        try {
+            await fetch(`http://localhost:5000/priem/delete/${appointment._id}`,{
+                method: "DELETE"
+            });
+
+            // Обновить список пациентов без удаленного пациента
+            // const updatedPacients = pacients.filter((pacient) => pacient._id !== appointment.);
+            // setPacients(updatedPacients);
+            alert("Запись успешно отменена")
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleSave = async () => {
 
@@ -181,10 +197,10 @@ export default function WaitAppCard({ appointment, setAppointments, appointments
                         {/*    }}*/}
                         {/*></div>*/}
                         <h6 style={{ marginBottom: "4px" }}>
-                            {appointment.status === "Предстоит" ? "Предстощий прием" : "Завершен"}
+                            {appointment.status === "Предстоит" ? "Предстоящий прием" : "Завершен"}
                         </h6>
                         <Button onClick={handleEdit}>Редактировать</Button>
-                        <Button variant="danger" onClick={handleEdit}>Удалить</Button>
+                        <Button variant="danger" onClick={handleDelete}>Удалить</Button>
                     </div>
                 )}
             </div>

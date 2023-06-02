@@ -28,10 +28,6 @@ app.use("/priem", appointmentRouter)
 app.use("/doctor", doctorRouter)
 app.use("/staff", stuffRouter)
 
-// app.post('/auth/registration',[
-//     check('username', "Имя пользователя не может быть пустым").notEmpty(),
-//     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
-// ], authController.registration)
 app.get('/api/posts', (req, res) => {
     Post.find()
         .then(posts => res.json(posts))
